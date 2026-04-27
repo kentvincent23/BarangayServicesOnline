@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\BarangayResident;
 use Illuminate\Http\Request;
 
-class ResidentController extends Controller {
-    public function store(Request $request) {
+class ResidentController extends Controller
+{
+    public function store(Request $request)
+    {
         $request->validate([
             'first_name'     => 'required|string|max:100',
             'last_name'      => 'required|string|max:100',
@@ -26,25 +29,39 @@ class ResidentController extends Controller {
                 ->with('open_tab', 'registry');
         }
 
-       $year = date('Y');
-       $latestResident = BarangayResident::latest('id')->first();
-       $nextNumber = $latestResident ? $latestResident->id + 1 : 1;
-       $resId = 'RES-' . $year . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
-       
-       BarangayResident::create([
-        'first_name'     => $request->first_name,
-        'last_name'      => $request->last_name,
-        'middle_initial' => $request->middle_initial,
-        'address'        => $request->address,
-        'resident_id'    => $resId,
-    ]);
+        $year = date('Y');
+        $latestResident = BarangayResident::latest('id')->first();
+        $nextNumber = $latestResident ? $latestResident->id + 1 : 1;
+        $resId = 'RES-' . $year . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
-    return back()
-        ->with('success', "Resident {$request->first_name} {$request->last_name} added with ID: {$resId}")
-        ->with('open_tab', 'registry');
-}
+        BarangayResident::create([
+            'first_name'     => $request->first_name,
+            'last_name'      => $request->last_name,
+            'middle_initial' => $request->middle_initial,
+            'address'        => $request->address,
+            'resident_id'    => $resId,
+        ]);
 
-    public function destroy(BarangayResident $barangayResident) {
+        return back()
+            ->with('success', "Resident {$request->first_name} {$request->last_name} added with ID: {$resId}")
+            ->with('open_tab', 'registry');
+    }
+    public function update(Request $request, BarangayResident $resident)
+    {
+        $request->validate([
+            'first_name'     => 'required|string|max:255',
+            'middle_initial' => 'nullable|string|max:1',
+            'last_name'      => 'required|string|max:255',
+            'address'        => 'required|string|max:500',
+        ]);
+
+        $resident->update($request->only(['first_name', 'middle_initial', 'last_name', 'address']));
+
+        return redirect()->back()->with('success', 'Resident updated successfully.');
+    }
+
+    public function destroy(BarangayResident $barangayResident)
+    {
         $barangayResident->delete();
         return back()
             ->with('success', 'Resident removed from registry.')

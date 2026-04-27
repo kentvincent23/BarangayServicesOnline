@@ -24,7 +24,7 @@
 
         .tab-btn.active {
             background: #1d4ed8;
-            color: #fff;
+            color: #fff; 
         }
 
         .tab-btn:not(.active) {
@@ -39,11 +39,13 @@
     <nav class="sticky top-0 z-50 glass border-b border-slate-200 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="bg-blue-700 text-white p-2 rounded-xl shadow-lg shadow-blue-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-10V4a1 1 0 011-1h2a1 1 0 011 1v3M12 7h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
-                </div>
+                   <a href="{{ url('/') }}" class="flex items-center gap-2 no-underline">
+    <img 
+        src="{{ asset('images/Mankilam Logo.jpg') }}" 
+        alt="Mankilam Logo"
+        class="h-12 w-auto object-contain rounded-md"
+    >
+</a>
                 <span class="font-extrabold text-xl tracking-tighter text-slate-800">Barangay Connect</span>
             </div>
             <div class="flex items-center gap-4">
@@ -62,14 +64,39 @@
                 </form>
                 @endauth
                 @guest
-                <a href="{{ route('login') }}" class="text-xs font-bold text-slate-600 px-4 py-2 hover:bg-slate-100 rounded-xl transition-all">LOGIN</a>
+                <a href="{{ route('login') }}" class="text-xs font-bold text-slate-600 px-4 py-2 hover:bg-slate-100 rounded-xl transition-all">Login</a>
                 <a href="{{ route('register') }}" class="text-xs font-bold text-white bg-blue-700 px-4 py-2 rounded-xl hover:bg-blue-800 transition-all">Create Account</a>
                 @endguest
             </div>
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto mt-10 px-6">
+    <main class="max-w-6xl mx-auto mt-10 px-6000">
+        
+              @guest
+                    <div class="text-right py-10">
+                        <div class="inline-flex justify-end">
+                            <a href="{{ url('/') }}" class="flex items-center gap-2 no-underline">
+                                <img 
+                                    src="{{ asset('images/Mankilam Logo.jpg') }}" 
+                                    alt="Mankilam Logo"
+                                    class="h-32 w-auto object-contain rounded-md">
+                            </a>
+                        </div>
+                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Barangay Connect</h1>
+                        <p class="text-slate-500 mt-3 text-lg font-medium">Access barangay services online — fast and easy.</p>
+                        <div class="flex justify-end gap-4 mt-8">
+                            <a href="{{ route('login') }}" class="bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all hover:bg-slate-50 shadow-sm">
+                                Sign In
+                            </a>
+                            <a href="{{ route('register') }}" class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-xl shadow-blue-100">
+                                Create Account
+                            </a>
+                        </div>
+                    </div>
+                @endguest
+
+        
 
         {{-- Alerts --}}
         @if($errors->has('not_resident'))
@@ -114,10 +141,7 @@
         {{-- ===== STAFF DASHBOARD ===== --}}
         <div class="space-y-8">
             <header class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                <div>
-                    <h1 class="text-4xl font-black text-slate-900 tracking-tight">Administrative Panel</h1>
-                    <p class="text-slate-500 font-medium mt-1 text-lg">Manage applications, residents, and staff.</p>
-                </div>
+              
                 <div class="flex gap-3 flex-wrap">
                     <div class="bg-white p-5 rounded-[2rem] shadow-sm border border-slate-200 flex items-center gap-4">
                         <div class="bg-blue-100 p-3 rounded-2xl text-blue-600">
@@ -341,16 +365,27 @@
                                 </td>
                                 <td class="px-8 py-5">
                                     <div class="flex justify-end opacity-0 group-hover:opacity-100 transition-all">
-                                        <form action="{{ route('residents.destroy', $res->id) }}" method="POST" onsubmit="return confirm('Remove this resident from the registry?')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="p-2.5 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all">
+                                       <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                                       {{-- Edit Button --}}
+                                            <button type="button"
+                                                onclick="openEditModal({{ $res->id }}, '{{ addslashes($res->first_name) }}', '{{ addslashes($res->middle_initial) }}', '{{ addslashes($res->last_name) }}', '{{ addslashes($res->address) }}')"
+                                                class="p-2.5 bg-blue-50 text-blue-500 rounded-xl hover:bg-blue-500 hover:text-white transition-all">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                 </svg>
                                             </button>
-                                        </form>
-                                    </div>
-                                </td>
+
+                                            {{-- Delete Button --}}
+                                            <form action="{{ route('residents.destroy', $res->id) }}" method="POST" onsubmit="return confirm('Remove this resident from the registry?')">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" class="p-2.5 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
+                                  </td>
                             </tr>
                             @empty
                             <tr>
@@ -363,6 +398,84 @@
                     </table>
                 </div>
             </div>
+
+                    <div id="editModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+                        <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 w-full max-w-lg mx-4 p-8">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-lg font-black text-slate-800">Edit Resident</h2>
+                                <button onclick="closeEditModal()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 transition-all">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <form id="editForm" method="POST">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                    <div class="md:col-span-2 space-y-2">
+                                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">First Name</label>
+                                        <input type="text" id="edit_first_name" name="first_name" required
+                                            class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block text-center">M.I.</label>
+                                        <input type="text" id="edit_middle_initial" name="middle_initial" maxlength="1"
+                                            class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-center uppercase">
+                                    </div>
+                                  <div class="md:col-span-2 space-y-2">
+                                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Last Name</label>
+                                    <input type="text" id="edit_last_name" name="last_name" required
+                                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                                </div>
+                                </div>
+
+                                <div class="mt-4 space-y-2">
+                                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Home Address</label>
+                                    <input type="text" id="edit_address" name="address" required
+                                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                                </div>
+
+                                <div class="mt-6 flex justify-end gap-3">
+                                    <button type="button" onclick="closeEditModal()"
+                                        class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-6 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all">
+                                        Cancel
+                                    </button>
+                                    <button type="submit"
+                                        class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-blue-100 active:scale-95">
+                                        Save Changes
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                                            <script>
+                        function openEditModal(id, firstName, middleInitial, lastName, address) {
+                            document.getElementById('edit_first_name').value = firstName;
+                            document.getElementById('edit_middle_initial').value = middleInitial;
+                            document.getElementById('edit_last_name').value = lastName;
+                            document.getElementById('edit_address').value = address;
+                            document.getElementById('editForm').action = '/residents/' + id;
+
+                            const modal = document.getElementById('editModal');
+                            modal.classList.remove('hidden');
+                            modal.classList.add('flex');
+                        }
+
+                        function closeEditModal() {
+                            const modal = document.getElementById('editModal');
+                            modal.classList.add('hidden');
+                            modal.classList.remove('flex');
+                        }
+
+                        document.getElementById('editModal').addEventListener('click', function(e) {
+                            if (e.target === this) closeEditModal();
+                        });
+                    </script>
+
 
             {{-- Staff Accounts Tab --}}
             <div id="panel-staff" class="hidden space-y-6">
@@ -576,25 +689,6 @@
         @endif
         @endauth
 
-        @guest
-        <div class="text-center py-24">
-            <div class="inline-flex bg-blue-700 text-white p-4 rounded-3xl shadow-lg shadow-blue-200 mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4v3M12 7h1m-1 4h1" />
-                </svg>
-            </div>
-            <h1 class="text-4xl font-black text-slate-900 tracking-tight">Barangay Connect</h1>
-            <p class="text-slate-500 mt-3 text-lg font-medium">Access barangay services online — fast and easy.</p>
-            <div class="flex justify-center gap-4 mt-8">
-                <a href="{{ route('login') }}" class="bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all hover:bg-slate-50 shadow-sm">
-                    Sign In
-                </a>
-                <a href="{{ route('register') }}" class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-xl shadow-blue-100">
-                    Create Account
-                </a>
-            </div>
-        </div>
-        @endguest
 
     </main>
 

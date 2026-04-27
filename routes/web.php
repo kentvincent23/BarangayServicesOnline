@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResidentController;
@@ -26,4 +27,5 @@ Route::middleware('auth')->group(function () {
     // Staff accounts (staff only)
     Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');
     Route::delete('/staff/{user}', [StaffController::class, 'destroy'])->name('staff.destroy');
+    Route::put('/residents/{resident}', [ResidentController::class, 'update'])->name('residents.update');
 });
