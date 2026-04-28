@@ -83,7 +83,7 @@
                                     class="h-32 w-auto object-contain rounded-md">
                             </a>
                         </div>
-                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Barangay Connect</h1>
+                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Barangay Online Service Portal</h1>
                         <p class="text-slate-500 mt-3 text-lg font-medium">Access barangay services online — fast and easy.</p>
                         <div class="flex justify-end gap-4 mt-8">
                             <a href="{{ route('login') }}" class="bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all hover:bg-slate-50 shadow-sm">
