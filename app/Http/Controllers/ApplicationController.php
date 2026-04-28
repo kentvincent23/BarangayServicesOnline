@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Application;
@@ -7,8 +8,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ApplicationController extends Controller {
-    public function index(Request $request) {
+class ApplicationController extends Controller
+{
+    public function index(Request $request)
+    {
         $user = Auth::user();
 
         if ($user && $user->role === 'staff') {
@@ -21,8 +24,8 @@ class ApplicationController extends Controller {
             $residents = BarangayResident::when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->whereRaw('LOWER(first_name) LIKE ?', ['%' . strtolower($search) . '%'])
-                      ->orWhereRaw('LOWER(last_name) LIKE ?', ['%' . strtolower($search) . '%'])
-                      ->orWhereRaw('LOWER(CONCAT(first_name, " ", last_name)) LIKE ?', ['%' . strtolower($search) . '%']);
+                        ->orWhereRaw('LOWER(last_name) LIKE ?', ['%' . strtolower($search) . '%'])
+                        ->orWhereRaw('LOWER(CONCAT(first_name, " ", last_name)) LIKE ?', ['%' . strtolower($search) . '%']);
                 });
             })->latest()->get();
 
@@ -30,15 +33,22 @@ class ApplicationController extends Controller {
             $staffCount    = $staffAccounts->count();
 
             return view('home', compact(
-                'applications', 'approvedCount', 'readyCount',
-                'residents', 'residentCount', 'staffAccounts', 'staffCount', 'search'
+                'applications',
+                'approvedCount',
+                'readyCount',
+                'residents',
+                'residentCount',
+                'staffAccounts',
+                'staffCount',
+                'search'
             ));
         }
 
         return view('home');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'first_name'     => 'required|string|max:100',
             'middle_initial' => '',
@@ -77,13 +87,20 @@ class ApplicationController extends Controller {
         return back()->with('success', 'Your application has been submitted and automatically approved. Please wait for the Ready to Pick Up notice.');
     }
 
-    public function markReady(Application $application) {
+    public function markReady(Application $application)
+    {
         $application->update(['status' => 'ready_to_pickup']);
         return back()->with('success', 'Marked as Ready to Pick Up.');
     }
 
-    public function destroy(Application $application) {
+    public function destroy(Application $application)
+    {
         $application->delete();
         return back()->with('success', 'Application deleted.');
+    }
+    public function release(Application $application)
+    {
+        $application->update(['status' => 'released']);
+        return redirect()->back();
     }
 }

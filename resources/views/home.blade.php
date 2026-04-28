@@ -231,23 +231,35 @@
                                 </td>
                                 <td class="px-8 py-6">
                                     @if($app->status === 'approved')
-                                    <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-600 border border-blue-200/50">Approved</span>
-                                    @else
-                                    <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-600 border border-emerald-200/50">Ready to Pick Up</span>
+                                        <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-600 border border-blue-200/50">Approved</span>
+                                    @elseif($app->status === 'ready_to_pickup')
+                                        <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-600 border border-emerald-200/50">Ready to Pick Up</span>
+                                    @elseif($app->status === 'released')
+                                        <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-violet-100 text-violet-600 border border-violet-200/50">Released</span>
                                     @endif
                                 </td>
                                 <td class="px-8 py-6">
                                     <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all">
                                         @if($app->status === 'approved')
-                                        <form action="{{ route('applications.ready', $app->id) }}" method="POST">
-                                            @csrf @method('PATCH')
-                                            <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8" />
-                                                </svg>
-                                                Ready to Pick Up
-                                            </button>
-                                        </form>
+                                            <form action="{{ route('applications.ready', $app->id) }}" method="POST">
+                                                @csrf @method('PATCH')
+                                                <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8" />
+                                                    </svg>
+                                                    Ready to Pick Up
+                                                </button>
+                                            </form>
+                                        @elseif($app->status === 'ready_to_pickup')
+                                            <form action="{{ route('applications.release', $app->id) }}" method="POST">
+                                                @csrf @method('PATCH')
+                                                <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-violet-50 text-violet-600 rounded-xl hover:bg-violet-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    Mark as Released
+                                                </button>
+                                            </form>
                                         @endif
                                         <form action="{{ route('applications.destroy', $app->id) }}" method="POST" onsubmit="return confirm('Delete this application permanently?')">
                                             @csrf @method('DELETE')
@@ -422,7 +434,7 @@
                                     </div>
                                     <div class="space-y-2">
                                         <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block text-center">M.I.</label>
-                                        <input type="text" id="edit_middle_initial" name="middle_initial" maxlength="1"
+                     4                   <input type="text" id="edit_middle_initial" name="middle_initial" maxlength="1"
                                             class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-center uppercase">
                                     </div>
                                   <div class="md:col-span-2 space-y-2">
