@@ -58,7 +58,7 @@
             </div>
 
             <button type="submit"
-                class="w-full bg-blue-700 hover:bg-blue-800 text-white py-5 rounded-[1.5rem] font-black uppercase tracking-[0.2em] text-xs transition-all shadow-xl shadow-blue-100 active:scale-95 mt-2">
+                class="w-full bg-blue-700 hover:bg-blue-700 text-white py-5 rounded-[1.5rem] font-black uppercase tracking-[0.2em] text-xs transition-all shadow-xl shadow-blue-100 active:scale-95 mt-2">
                 Sign In
             </button>
         </form>

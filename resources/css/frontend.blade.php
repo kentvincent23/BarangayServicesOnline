@@ -228,7 +228,7 @@
     </main>
 
     <footer class="mt-12 text-center">
-        <p class="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em]">&copy; {{ date('Y') }} Barangay Connect System</p>
+        <p class="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em]">&copy; {{ date('Y') }} Barangay Online Services Portal</p>
     </footer>
 
     <script>

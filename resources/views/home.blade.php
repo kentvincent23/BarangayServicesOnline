@@ -51,10 +51,8 @@
             <div class="flex items-center gap-4">
                 @auth
                 <div class="hidden md:block text-right border-r border-slate-200 pr-4 mr-2">
-                    <p class="text-xs font-bold text-slate-900 uppercase">{{ Auth::user()->name }}</p>
-                    <p class="text-[10px] text-blue-600 font-black tracking-widest uppercase">
-                        {{ Auth::user()->role === 'staff' ? 'Staff Officer' : 'Resident ID: ' . (Auth::user()->resident_id ?? 'N/A') }}
-                    </p>
+                    <p class="text-s font-bold text-slate-900 uppercase">{{ Auth::user()->name }}</p>
+                  
                 </div>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
@@ -64,7 +62,7 @@
                 </form>
                 @endauth
                 @guest
-                <a href="{{ route('login') }}" class="text-xs font-bold text-slate-600 px-4 py-2 hover:bg-slate-100 rounded-xl transition-all">Login</a>
+                <a href="{{ route('login') }}" class="text-xs font-bold text-slate-600 px-4 py-2 hover:bg-blue-700 rounded-xl transition-all">Sign in</a>
                 <a href="{{ route('register') }}" class="text-xs font-bold text-white bg-blue-700 px-4 py-2 rounded-xl hover:bg-blue-800 transition-all">Create Account</a>
                 @endguest
             </div>
@@ -73,28 +71,87 @@
 
     <main class="max-w-6xl mx-auto mt-10 px-6000">
         
-              @guest
-                    <div class="text-right py-10">
+             @guest
+                <div class="flex items-center justify-between gap-16 py-7 min-h-[70vh]">
+
+                   {{-- LEFT: Vision Mission Goal --}}
+                <div class="flex-1 grid grid-cols-1 gap-6">
+                    <div class="group bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-blue-50 p-3 rounded-2xl group-hover:bg-blue-700 transition-colors duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-700 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="Drawing-Icon-Path-Optional-Or-Just-Keep-Circles" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-[11px] font-black text-blue-700 uppercase tracking-[0.2em] mb-2">Vision</h3>
+                                <p class="text-slate-600 font-medium text-sm leading-relaxed">
+                                    To be a model barangay: economically progressive, stable, peaceful and health constituents...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-blue-50 p-3 rounded-2xl group-hover:bg-blue-700 transition-colors duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-700 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-[11px] font-black text-blue-700 uppercase tracking-[0.2em] mb-2">Mission</h3>
+                                <p class="text-slate-600 font-medium text-sm leading-relaxed">
+                                    The officials and constituents have strong determination in attaining development in economic, cultural, political, ecological, social and spiritual aspects.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-blue-50 p-3 rounded-2xl group-hover:bg-blue-700 transition-colors duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-700 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-[11px] font-black text-blue-700 uppercase tracking-[0.2em] mb-2">Goal</h3>
+                                <p class="text-slate-600 font-medium text-sm leading-relaxed">
+                                    To provide continuity in giving different services needed by the community.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    {{-- RIGHT: Logo + Title + Buttons --}}
+                    <div class="flex-1 text-right space-y-6">
                         <div class="inline-flex justify-end">
                             <a href="{{ url('/') }}" class="flex items-center gap-2 no-underline">
-                                <img 
-                                    src="{{ asset('images/Mankilam Logo.jpg') }}" 
+                                <img
+                                    src="{{ asset('images/Mankilam Logo.jpg') }}"
                                     alt="Mankilam Logo"
                                     class="h-32 w-auto object-contain rounded-md">
                             </a>
                         </div>
-                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Barangay Online Service Portal</h1>
-                        <p class="text-slate-500 mt-3 text-lg font-medium">Access barangay services online — fast and easy.</p>
-                        <div class="flex justify-end gap-4 mt-8">
-                            <a href="{{ route('login') }}" class="bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all hover:bg-slate-50 shadow-sm">
+                        <div>
+                            <h1 class="text-4xl font-black text-slate-900 tracking-tight">Barangay Online Services Portal</h1>
+                            <p class="text-slate-500 mt-3 text-lg font-medium">Access barangay services online — fast and easy.</p>
+                        </div>
+                        <div class="flex justify-end gap-4">
+                            <a href="{{ route('login') }}" class="bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all hover:bg-blue-700 shadow-sm">
                                 Sign In
                             </a>
-                            <a href="{{ route('register') }}" class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-xl shadow-blue-100">
+                            <a href="{{ route('register') }}" class="bg-blue-700 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-xl shadow-blue-100">
                                 Create Account
                             </a>
                         </div>
                     </div>
-                @endguest
+
+                </div>
+             @endguest
 
         
 
@@ -687,9 +744,11 @@
                         </div>
                         <div>
                             @if($app->status === 'approved')
-                            <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-600 border border-blue-200/50">Approved</span>
-                            @else
-                            <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-600 border border-emerald-200/50 animate-pulse">Ready to Pick Up</span>
+                                <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-600 border border-blue-200/50">Approved</span>
+                            @elseif($app->status === 'ready_to_pickup')
+                                <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-600 border border-emerald-200/50 animate-pulse">Ready to Pick Up</span>
+                            @elseif($app->status === 'released')
+                                <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-violet-100 text-violet-600 border border-violet-200/50">Released</span>
                             @endif
                         </div>
                     </div>
@@ -705,7 +764,7 @@
     </main>
 
     <footer class="mt-12 text-center">
-        <p class="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em]">&copy; {{ date('Y') }} Barangay Connect System</p>
+        <p class="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em]">&copy; {{ date('Y') }} Barangay Online Services Portal</p>
     </footer>
 
     <script>
