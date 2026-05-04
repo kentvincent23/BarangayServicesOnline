@@ -218,7 +218,7 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ready</p>
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ready to Pickup</p>
                             <p class="text-xl font-extrabold text-slate-800">{{ $readyCount ?? 0 }}</p>
                         </div>
                     </div>
