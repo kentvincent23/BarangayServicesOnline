@@ -1,15 +1,24 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Application extends Model {
+class Application extends Model
+{
     protected $fillable = [
-        'user_id', 'resident_name', 'resident_id',
-        'document_type', 'purpose', 'notes', 'status',
+        'user_id',
+        'resident_name',
+        'resident_id',
+        'document_type',
+        'purpose',
+        'notes',
+        'id_image_path', // <--- MUST BE EXACTLY THIS
+        'status',
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

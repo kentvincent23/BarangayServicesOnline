@@ -28,32 +28,74 @@
             </div>
         @endif
 
-        <form action="/register" method="POST" class="space-y-5">
-            @csrf
-            <div class="grid grid-cols-2 gap-4">
-                <div class="space-y-2">
-                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">First Name</label>
-                    <input type="text" name="first_name" value="{{ old('first_name') }}" required
-                        class="w-full px-5 py-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none">
-                </div>
-                <div class="space-y-2">
-                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Last Name</label>
-                    <input type="text" name="last_name" value="{{ old('last_name') }}" required
-                        class="w-full px-5 py-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none">
-                </div>
-            </div>
-
+        <form action="/register" method="POST" class="space-y-6">
+    @csrf
+    
+    {{-- Name Section --}}
+    <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div class="space-y-2">
-                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" required
-                    class="w-full px-5 py-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none">
+                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">First Name</label>
+                <input type="text" name="first_name" value="{{ old('first_name') }}" required
+                    class="w-full px-5 py-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none transition-all">
             </div>
+            <div class="space-y-2">
+                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Middle Name</label>
+                <input type="text" name="middle_name" value="{{ old('middle_name') }}" placeholder="(Optional)"
+                    class="w-full px-5 py-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none transition-all">
+            </div>
+        </div>
 
+        <div class="space-y-2">
+            <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Last Name</label>
+            <input type="text" name="last_name" value="{{ old('last_name') }}" required
+                class="w-full px-5 py-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none transition-all">
+        </div>
+    </div>
+
+    {{-- Personal Info Section --}}
+    <div class="pt-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="space-y-2">
+                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Age</label>
+                <input type="number" name="age" value="{{ old('age') }}" required min="1"
+                    class="w-full px-5 py-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none transition-all">
+            </div>
+            <div class="space-y-2">
+                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Civil Status</label>
+                <div class="relative">
+                    <select name="civil_status" required
+                        class="w-full px-5 py-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-bold text-slate-700 border-none appearance-none transition-all">
+                        <option value="" disabled {{ old('civil_status') ? '' : 'selected' }}>Select Status</option>
+                        <option value="Single" {{ old('civil_status') == 'Single' ? 'selected' : '' }}>Single</option>
+                        <option value="Married" {{ old('civil_status') == 'Married' ? 'selected' : '' }}>Married</option>
+                        <option value="Widowed" {{ old('civil_status') == 'Widowed' ? 'selected' : '' }}>Widowed</option>
+                        <option value="Separated" {{ old('civil_status') == 'Separated' ? 'selected' : '' }}>Separated</option>
+                    </select>
+                    <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Account Section --}}
+    <div class="space-y-4 pt-2">
+        <div class="space-y-2">
+            <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+            <input type="email" name="email" value="{{ old('email') }}" required
+                class="w-full px-5 py-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none transition-all">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div class="space-y-2">
                 <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
                 <div class="relative">
                     <input type="password" name="password" id="reg_password" required
-                        class="w-full px-5 py-4 pr-14 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none">
+                        class="w-full px-5 py-4 pr-14 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none transition-all">
                     <button type="button" onclick="togglePassword('reg_password', 'eye-reg')"
                         class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
                         <svg id="eye-reg" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,12 +105,11 @@
                     </button>
                 </div>
             </div>
-
             <div class="space-y-2">
                 <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Confirm Password</label>
                 <div class="relative">
                     <input type="password" name="password_confirmation" id="reg_password_confirm" required
-                        class="w-full px-5 py-4 pr-14 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none">
+                        class="w-full px-5 py-4 pr-14 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold border-none transition-all">
                     <button type="button" onclick="togglePassword('reg_password_confirm', 'eye-reg-confirm')"
                         class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
                         <svg id="eye-reg-confirm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,12 +119,14 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <button type="submit"
-                class="w-full bg-blue-700 hover:bg-blue-800 text-white py-5 rounded-[1.5rem] font-black uppercase tracking-[0.2em] text-xs transition-all shadow-xl shadow-blue-100 active:scale-95">
-                Create Account
-            </button>
-        </form>
+    <button type="submit"
+        class="w-full bg-blue-700 hover:bg-blue-800 text-white py-5 mt-4 rounded-[1.5rem] font-black uppercase tracking-[0.2em] text-xs transition-all shadow-xl shadow-blue-100 active:scale-[0.98]">
+        Create Account
+    </button>
+</form>
 
         <p class="text-center text-xs text-slate-400 mt-6 font-medium">
             Already have an account?

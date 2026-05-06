@@ -49,13 +49,22 @@ class ResidentController extends Controller
     public function update(Request $request, BarangayResident $resident)
     {
         $request->validate([
-            'first_name'     => 'required|string|max:255',
-            'middle_initial' => 'nullable|string|max:1',
-            'last_name'      => 'required|string|max:255',
-            'address'        => 'required|string|max:500',
+            'first_name'   => 'required|string|max:255',
+            'middle_name'  => 'nullable|string|max:255',
+            'last_name'    => 'required|string|max:255',
+            'age'          => 'required|integer',
+            'civil_status' => 'required|string',
+            'address'      => 'required|string|max:500',
         ]);
 
-        $resident->update($request->only(['first_name', 'middle_initial', 'last_name', 'address']));
+        $resident->update($request->only([
+            'first_name',
+            'middle_name',
+            'last_name',
+            'age',
+            'civil_status',
+            'address'
+        ]));
 
         return redirect()->back()->with('success', 'Resident updated successfully.');
     }

@@ -1,12 +1,15 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class StaffController extends Controller {
-    public function store(Request $request) {
+class StaffController extends Controller
+{
+    public function store(Request $request)
+    {
         $request->validate([
             'first_name' => 'required|string|max:100',
             'last_name'  => 'required|string|max:100',
@@ -28,7 +31,8 @@ class StaffController extends Controller {
             ->with('open_tab', 'staff');
     }
 
-    public function destroy(User $user) {
+    public function destroy(User $user)
+    {
         if ($user->id === auth()->id()) {
             return back()->withErrors(['staff_error' => 'You cannot delete your own account.'])->with('open_tab', 'staff');
         }
