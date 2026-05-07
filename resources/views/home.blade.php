@@ -375,6 +375,15 @@
         </div>
 
         {{-- ===== RESIDENT REGISTRY TAB ===== --}}
+        <form method="POST" action="{{ route('residents.store') }}">
+    @csrf
+@if ($errors->any())
+    <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl">
+        @foreach ($errors->all() as $error)
+            <p class="text-sm text-red-600">⚠ {{ $error }}</p>
+        @endforeach
+    </div>
+@endif
         <div id="panel-registry" class="hidden space-y-6">
              <div class="bg-white rounded-2xl shadow-sm p-6">
         <h2 class="text-lg font-bold text-gray-800 mb-6">Add New Resident to Registry</h2>
@@ -418,8 +427,8 @@
 </div>
 
         <div class="mb-6">
-            <label class="block text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Home Address</label>
-            <input type="text" name="home_address" placeholder="e.g. Blk1 Lot 2, Sampaguita St." value="{{ old('home_address') }}"
+            <label class="block text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Address</label>
+            <input type="text" name="address" placeholder="e.g. Blk1 Lot 2, Sampaguita St." value="{{ old('address') }}"
                 class="w-full bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
 
@@ -542,7 +551,7 @@
                         </div>
                     </div>
                     <div class="mt-4 space-y-2">
-                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Home Address</label>
+                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Address</label>
                         <input type="text" id="edit_address" name="address" required
                             class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
                     </div>
