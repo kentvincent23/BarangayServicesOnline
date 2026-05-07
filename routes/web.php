@@ -30,6 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/residents/{resident}', [ResidentController::class, 'update'])->name('residents.update');
     // Check these lines!
     Route::post('/applications/{application}/ready', [ApplicationController::class, 'markReady'])->name('applications.ready');
-    Route::delete('/applications/{application}', [ApplicationController::class, 'destroy'])->name('applications.destroy');
     Route::post('/applications/{application}/release', [ApplicationController::class, 'release'])->name('applications.release');
+    Route::patch('/applications/{application}/reject', [ApplicationController::class, 'reject'])->name('applications.reject');
 });

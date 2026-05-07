@@ -66,7 +66,7 @@ class ResidentController extends Controller
             'address'
         ]));
 
-        return redirect()->back()->with('success', 'Resident updated successfully.');
+        return back()->with('success', 'Resident updated successfully.');
     }
 
     public function destroy(BarangayResident $barangayResident)

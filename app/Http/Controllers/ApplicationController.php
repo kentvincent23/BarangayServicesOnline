@@ -111,23 +111,15 @@ class ApplicationController extends Controller
         return back()->with('success', 'Verified! ID image purged.');
     }
 
-    public function destroy(Application $application)
-    {
-        // Safety: Delete the file if it exists before deleting the record
-        if ($application->id_image_path) {
-            $filePath = storage_path('app/public/' . $application->id_image_path);
-            if (file_exists($filePath)) {
-                unlink($filePath);
-            }
-        }
-
-        $application->delete();
-        return back()->with('success', 'Application deleted.');
-    }
-
     public function release(Application $application)
     {
         $application->update(['status' => 'released']);
         return redirect()->back()->with('success', 'Document marked as released.');
+    }
+    public function reject(Application $application)
+    {
+        $application->update(['status' => 'rejected']);
+
+        return redirect()->back()->with('success', 'Application has been rejected.');
     }
 }
