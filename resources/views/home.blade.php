@@ -376,40 +376,61 @@
 
         {{-- ===== RESIDENT REGISTRY TAB ===== --}}
         <div id="panel-registry" class="hidden space-y-6">
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
-                <h2 class="text-lg font-black text-slate-800 mb-6">Add New Resident to Registry</h2>
-                <form action="{{ route('residents.store') }}" method="POST">
-                    @csrf
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div class="md:col-span-2 space-y-2">
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">First Name</label>
-                            <input type="text" name="first_name" value="{{ old('first_name') }}" required
-                                class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block text-center">M.I.</label>
-                            <input type="text" name="middle_initial" maxlength="1" value="{{ old('middle_initial') }}"
-                                class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-center uppercase">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Last Name</label>
-                            <input type="text" name="last_name" value="{{ old('last_name') }}" required
-                                class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
-                        </div>
-                    </div>
-                    <div class="mt-4 space-y-2">
-                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Home Address</label>
-                        <input type="text" name="address" value="{{ old('address') }}" placeholder="e.g. Blk 1 Lot 2, Sampaguita St."
-                            class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold" required>
-                    </div>
-                    <div class="mt-6 flex justify-end">
-                        <button type="submit"
-                            class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-blue-100 active:scale-95">
-                            + Add Resident
-                        </button>
-                    </div>
-                </form>
+             <div class="bg-white rounded-2xl shadow-sm p-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-6">Add New Resident to Registry</h2>
+
+        <div class="flex gap-4 mb-5">
+            <div class="flex-1">
+                <label class="block text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">First Name</label>
+                <input type="text" name="first_name" value="{{ old('first_name') }}"
+                    class="w-full bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
+            <div class="w-24">
+                <label class="block text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">M.I.</label>
+                <input type="text" name="middle_initial" maxlength="1" value="{{ old('middle_initial') }}"
+                    class="w-full bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div class="flex-1">
+                <label class="block text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Last Name</label>
+                <input type="text" name="last_name" value="{{ old('last_name') }}"
+                    class="w-full bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+        </div>
+
+{{-- Age & Civil Status Row --}}
+<div class="flex gap-4 mb-5">
+    <div class="flex-1">
+        <label class="block text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Age</label>
+        <input type="number" name="age" min="0" max="150" value="{{ old('age') }}"
+            class="w-full bg-gray-100 border-0 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+    </div>
+    <div class="flex-1">
+        <label class="block text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Civil Status</label>
+        <select name="civil_status"
+            class="w-full bg-gray-100 border-0 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
+            <option value="" disabled selected></option>
+            <option value="Single"    {{ old('civil_status') == 'Single'    ? 'selected' : '' }}>Single</option>
+            <option value="Married"   {{ old('civil_status') == 'Married'   ? 'selected' : '' }}>Married</option>
+            <option value="Widowed"   {{ old('civil_status') == 'Widowed'   ? 'selected' : '' }}>Widowed</option>
+            <option value="Separated" {{ old('civil_status') == 'Separated' ? 'selected' : '' }}>Separated</option>
+        </select>
+    </div>
+</div>
+
+        <div class="mb-6">
+            <label class="block text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Home Address</label>
+            <input type="text" name="home_address" placeholder="e.g. Blk1 Lot 2, Sampaguita St." value="{{ old('home_address') }}"
+                class="w-full bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="flex justify-end">
+            <button type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-xl transition-colors duration-200">
+                + Add Resident
+            </button>
+        </div>
+    </div>
+</form>
 
             <form method="GET" action="/" class="flex gap-3">
                 <input type="hidden" name="tab" value="registry">

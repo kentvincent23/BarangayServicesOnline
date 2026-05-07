@@ -7,7 +7,11 @@ class BarangayResident extends Model {
     protected $table = 'barangay_residents';
 
     protected $fillable = [
-        'first_name', 'last_name', 'middle_initial',
-        'resident_id', 'address',
-    ];
+    'first_name',
+    'middle_initial',
+    'last_name',
+    'age',
+    'civil_status',
+    'home_address',
+];
 }
