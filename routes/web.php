@@ -13,6 +13,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register')->middleware('guest');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/residents', [ResidentController::class, 'store'])->name('residents.store');
 
 Route::middleware('auth')->group(function () {
     // Applications

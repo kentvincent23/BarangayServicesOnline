@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class StaffController extends Controller
@@ -33,10 +34,10 @@ class StaffController extends Controller
 
     public function destroy(User $user)
     {
-        if ($user->id === auth()->id()) {
+        if ($user->getKey() === Auth::id()) {
             return back()->withErrors(['staff_error' => 'You cannot delete your own account.'])->with('open_tab', 'staff');
         }
-        $user->delete();
+        User::destroy($user->getKey());
         return back()
             ->with('success', 'Staff account removed.')
             ->with('open_tab', 'staff');

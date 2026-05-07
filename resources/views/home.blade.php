@@ -479,7 +479,7 @@
                     </div>
                     <div class="mt-4 space-y-2">
                         <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Home Address</label>
-                        <input type="text" name="address" value="{{ old('address') }}" placeholder="e.g. Purok Lemonsito zone1"
+                        <input type="text" name="address" value="{{ old('address') }}" placeholder="e.g. Blk 1 Lot 2, Sampaguita St."
                             class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold" required>
                     </div>
                     <div class="mt-6 flex justify-end">
@@ -601,7 +601,7 @@
                         </div>
                     </div>
                     <div class="mt-4 space-y-2">
-                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Home Address</label>
+                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Address</label>
                         <input type="text" id="edit_address" name="address" required
                             class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
                     </div>
