@@ -10,14 +10,15 @@ return new class extends Migration
     {
         Schema::table('barangay_residents', function (Blueprint $table) {
             $table->integer('age')->nullable()->after('last_name');
-            $table->string('civil_status')->nullable()->after('age');
+            $table->integer('birthdate')->nullable()->after('age');
+            $table->string('civil_status')->nullable()->after('birthdate');
         });
     }
 
     public function down(): void
     {
         Schema::table('barangay_residents', function (Blueprint $table) {
-            $table->dropColumn(['age', 'civil_status']);
+            $table->dropColumn(['age', 'birthdate', 'civil_status']);
         });
     }
 };

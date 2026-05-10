@@ -5,72 +5,79 @@ namespace App\Http\Controllers;
 use App\Models\BarangayResident;
 use Illuminate\Http\Request;
 
-
-    class ResidentController extends Controller
-    {
-        public function store(Request $request)
+class ResidentController extends Controller
 {
-    $request->validate([
-        'first_name'     => 'required|string|max:255',
-        'middle_initial' => 'nullable|string|max:1',
-        'last_name'      => 'required|string|max:255',
-        'age'            => 'required|integer|min:0|max:150',
-        'civil_status'   => 'required|string',
-        'address'        => 'required|string|max:255',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'first_name'  => 'required|string|max:100',
+            'middle_name' => 'nullable|string|max:100',
+            'last_name'   => 'required|string|max:100',
+            'birth_date'  => 'required|date',
+            'age'         => 'required|integer',
+            'civil_status' => 'required|string',
+            'address'     => 'required|string|max:255',
+        ]);
 
-    // Check duplicate
-    $exists = BarangayResident::whereRaw('LOWER(first_name) = ?', [strtolower($request->first_name)])
-        ->whereRaw('LOWER(last_name) = ?', [strtolower($request->last_name)])
-        ->whereRaw('LOWER(COALESCE(middle_initial, "")) = ?', [strtolower($request->middle_initial ?? '')])
-        ->exists();
+        // Check for duplicate full name
+        $exists = BarangayResident::whereRaw('LOWER(first_name) = ?', [strtolower($request->first_name)])
+            ->whereRaw('LOWER(last_name) = ?', [strtolower($request->last_name)])
+            ->whereRaw('LOWER(COALESCE(middle_name, "")) = ?', [strtolower($request->middle_name ?? '')])
+            ->exists();
 
-    if ($exists) {
-        return back()->withInput()
-            ->withErrors(['duplicate_resident' => 'A resident already exists in the registry.'])
+        if ($exists) {
+            return back()
+                ->withInput()
+                ->withErrors(['duplicate_resident' => 'A resident already exists in the registry.'])
+                ->with('open_tab', 'registry');
+        }
+
+        $year = date('Y');
+        $latestResident = BarangayResident::latest('id')->first();
+        $nextNumber = $latestResident ? $latestResident->id + 1 : 1;
+        $resId = 'RES-' . $year . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+
+        BarangayResident::create([
+            'resident_id'  => $resId,
+            'first_name'  => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name'   => $request->last_name,
+            'birthdate'  => $request->birth_date,
+            'age'         => $request->age,
+            'civil_status' => $request->civil_status,
+            'address'     => $request->address,
+        ]);
+
+        return back()
+            ->with('success', "Resident {$request->first_name} {$request->last_name} added with ID: {$resId}")
             ->with('open_tab', 'registry');
     }
-
-    // Generate resident ID
-    $latest = BarangayResident::latest('id')->first();
-    $resId = 'RES-' . date('Y') . '-' . str_pad($latest ? $latest->id + 1 : 1, 3, '0', STR_PAD_LEFT);
-
-    BarangayResident::create(array_merge($request->only([
-        'first_name', 'middle_initial', 'last_name',
-        'age', 'civil_status', 'address',
-    ]), ['resident_id' => $resId]));
-
-    return back()
-        ->with('success', "Resident {$request->first_name} {$request->last_name} added with ID: {$resId}")
-        ->with('open_tab', 'registry');
-}
-
     public function update(Request $request, BarangayResident $resident)
     {
         $request->validate([
             'first_name'   => 'required|string|max:255',
-            'middle_initial'  => 'nullable|string|max:1',
+            'middle_name'  => 'nullable|string|max:255',
             'last_name'    => 'required|string|max:255',
-            'age'          => 'required|integer|min:0|max:150',
+            'age'          => 'required|integer',
             'civil_status' => 'required|string',
-            'address' => 'required|string|max:255',
+            'address'      => 'required|string|max:500',
         ]);
 
         $resident->update($request->only([
             'first_name',
-            'middle_initial',
+            'middle_name',
             'last_name',
             'age',
             'civil_status',
             'address'
         ]));
 
-        return back()->with('success', 'Resident updated successfully.');
+        return redirect()->back()->with('success', 'Resident updated successfully.');
     }
 
-    public function destroy(BarangayResident $resident)
+    public function destroy(BarangayResident $barangayResident)
     {
-        $resident->forceDelete();
+        $barangayResident->delete();
         return back()
             ->with('success', 'Resident removed from registry.')
             ->with('open_tab', 'registry');

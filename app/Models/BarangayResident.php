@@ -11,8 +11,9 @@ class BarangayResident extends Model
     protected $fillable = [
         'resident_id',
         'first_name',
-        'middle_initial',
+        'middle_name',  // was middle_initial — change this
         'last_name',
+        'birthdate',   // add this
         'age',
         'civil_status',
         'address',
