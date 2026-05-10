@@ -428,7 +428,7 @@
                     </td>
                     <td class="px-8 py-5">
                         <p class="font-extrabold text-slate-800">
-                            {{ $res->first_name }} {{ $res->middle_initial ? strtoupper($res->middle_initial) . '.' : '' }} {{ $res->last_name }}
+                             {{ strtoupper(trim("{$res->first_name} {$res->middle_name} {$res->last_name}")) }}
                         </p>
                     </td>
                     <td class="px-8 py-5">
@@ -520,24 +520,6 @@
         {{-- ===== STAFF ACCOUNTS TAB ===== --}}
         <div id="panel-staff" class="hidden space-y-6">
  
-    {{-- Success / Error Alerts --}}
-    @if(session('success') && session('open_tab') === 'staff')
-        <div class="flex items-center gap-3 px-6 py-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-700 text-sm font-semibold">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            {{ session('success') }}
-        </div>
-    @endif
- 
-    @if($errors->has('staff_error'))
-        <div class="flex items-center gap-3 px-6 py-4 bg-red-50 border border-red-200 rounded-2xl text-red-700 text-sm font-semibold">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            {{ $errors->first('staff_error') }}
-        </div>
-    @endif
  
     {{-- Create Staff Form --}}
     <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
@@ -565,52 +547,6 @@
                     @error('last_name')
                         <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
                     @enderror
-                </div>
-            </div>
- 
-            {{-- Row 2: Email --}}
-            <div class="mt-4 space-y-2">
-                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" required
-                    placeholder="e.g. staff@barangay.gov.ph"
-                    class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold @error('email') ring-2 ring-red-400 @enderror">
-                @error('email')
-                    <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
-                @enderror
-            </div>
- 
-            {{-- Row 3: Password + Confirm Password --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div class="space-y-2">
-                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
-                    <div class="relative">
-                        <input type="password" name="password" id="staff_password" required
-                            class="w-full px-5 py-4 pr-14 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold @error('password') ring-2 ring-red-400 @enderror">
-                        <button type="button" onclick="togglePassword('staff_password', 'eye-staff')"
-                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
-                            <svg id="eye-staff" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
-                    </div>
-                    @error('password')
-                        <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div class="space-y-2">
-                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Confirm Password</label>
-                    <div class="relative">
-                        <input type="password" name="password_confirmation" id="staff_password_confirm" required
-                            class="w-full px-5 py-4 pr-14 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
-                        <button type="button" onclick="togglePassword('staff_password_confirm', 'eye-staff-confirm')"
-                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
-                            <svg id="eye-staff-confirm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
-                    </div>
                 </div>
             </div>
  
@@ -667,6 +603,52 @@
                 </div>
  
             </div>
+
+             {{-- Row 3: Email --}}
+            <div class="mt-4 space-y-2">
+                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Email</label>
+                <input type="email" name="email" value="{{ old('email') }}" required
+                    placeholder="e.g. staff@barangay.gov.ph"
+                    class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold @error('email') ring-2 ring-red-400 @enderror">
+                @error('email')
+                    <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+              {{-- lastrow: Password + Confirm Password --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
+                    <div class="relative">
+                        <input type="password" name="password" id="staff_password" required
+                            class="w-full px-5 py-4 pr-14 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold @error('password') ring-2 ring-red-400 @enderror">
+                        <button type="button" onclick="togglePassword('staff_password', 'eye-staff')"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
+                            <svg id="eye-staff" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                    </div>
+                    @error('password')
+                        <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Confirm Password</label>
+                    <div class="relative">
+                        <input type="password" name="password_confirmation" id="staff_password_confirm" required
+                            class="w-full px-5 py-4 pr-14 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                        <button type="button" onclick="togglePassword('staff_password_confirm', 'eye-staff-confirm')"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
+                            <svg id="eye-staff-confirm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
             {{-- ↑↑↑ END NEW ROW ↑↑↑ --}}
  
             <div class="mt-6 flex justify-end">
@@ -699,7 +681,10 @@
  
                             {{-- Name + You badge --}}
                             <td class="px-8 py-5 whitespace-nowrap">
-                                <p class="font-extrabold text-slate-800">{{ $staff->name }}</p>
+                                <p class="font-extrabold text-slate-800">
+                                        {{ strtoupper(trim("{$staff->first_name} {$staff->middle_name} {$staff->last_name}")) }}
+
+                                </p>
                                 @if($staff->id === Auth::id())
                                     <span class="text-[10px] font-black text-blue-500 bg-blue-50 px-2 py-0.5 rounded-lg">You</span>
                                 @endif
