@@ -14,6 +14,7 @@ class User extends Authenticatable
         'first_name',
         'middle_name',
         'last_name',
+        'birthdate',
         'age',
         'civil_status',
         'email',
@@ -22,6 +23,10 @@ class User extends Authenticatable
     ];
 
     protected $hidden = ['password', 'remember_token'];
+
+    protected $casts = [
+        'birthdate' => 'date',
+    ];
 
     public function applications()
     {

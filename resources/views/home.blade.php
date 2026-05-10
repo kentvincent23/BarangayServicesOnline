@@ -519,126 +519,269 @@
 
         {{-- ===== STAFF ACCOUNTS TAB ===== --}}
         <div id="panel-staff" class="hidden space-y-6">
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
-                <h2 class="text-lg font-black text-slate-800 mb-6">Create Staff Account</h2>
-                <form action="{{ route('staff.store') }}" method="POST">
-                    @csrf
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">First Name</label>
-                            <input type="text" name="first_name" value="{{ old('first_name') }}" required
-                                class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Last Name</label>
-                            <input type="text" name="last_name" value="{{ old('last_name') }}" required
-                                class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
-                        </div>
-                    </div>
-                    <div class="mt-4 space-y-2">
-                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Email</label>
-                        <input type="email" name="email" value="{{ old('email') }}" required
-                            class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
-                            <div class="relative">
-                                <input type="password" name="password" id="staff_password" required
-                                    class="w-full px-5 py-4 pr-14 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
-                                <button type="button" onclick="togglePassword('staff_password', 'eye-staff')"
-                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
-                                    <svg id="eye-staff" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Confirm Password</label>
-                            <div class="relative">
-                                <input type="password" name="password_confirmation" id="staff_password_confirm" required
-                                    class="w-full px-5 py-4 pr-14 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
-                                <button type="button" onclick="togglePassword('staff_password_confirm', 'eye-staff-confirm')"
-                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
-                                    <svg id="eye-staff-confirm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-6 flex justify-end">
-                        <button type="submit"
-                            class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-blue-100 active:scale-95">
-                            + Create Staff Account
+ 
+    {{-- Success / Error Alerts --}}
+    @if(session('success') && session('open_tab') === 'staff')
+        <div class="flex items-center gap-3 px-6 py-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-700 text-sm font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {{ session('success') }}
+        </div>
+    @endif
+ 
+    @if($errors->has('staff_error'))
+        <div class="flex items-center gap-3 px-6 py-4 bg-red-50 border border-red-200 rounded-2xl text-red-700 text-sm font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {{ $errors->first('staff_error') }}
+        </div>
+    @endif
+ 
+    {{-- Create Staff Form --}}
+    <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
+        <h2 class="text-lg font-black text-slate-800 mb-6">Create Staff Account</h2>
+ 
+        <form action="{{ route('staff.store') }}" method="POST">
+            @csrf
+ 
+            {{-- Row 1: First Name + Last Name --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">First Name</label>
+                    <input type="text" name="first_name" value="{{ old('first_name') }}" required
+                        placeholder="e.g. Juan"
+                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold @error('first_name') ring-2 ring-red-400 @enderror">
+                    @error('first_name')
+                        <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Last Name</label>
+                    <input type="text" name="last_name" value="{{ old('last_name') }}" required
+                        placeholder="e.g. Dela Cruz"
+                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold @error('last_name') ring-2 ring-red-400 @enderror">
+                    @error('last_name')
+                        <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+ 
+            {{-- Row 2: Email --}}
+            <div class="mt-4 space-y-2">
+                <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Email</label>
+                <input type="email" name="email" value="{{ old('email') }}" required
+                    placeholder="e.g. staff@barangay.gov.ph"
+                    class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold @error('email') ring-2 ring-red-400 @enderror">
+                @error('email')
+                    <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
+                @enderror
+            </div>
+ 
+            {{-- Row 3: Password + Confirm Password --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
+                    <div class="relative">
+                        <input type="password" name="password" id="staff_password" required
+                            class="w-full px-5 py-4 pr-14 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold @error('password') ring-2 ring-red-400 @enderror">
+                        <button type="button" onclick="togglePassword('staff_password', 'eye-staff')"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
+                            <svg id="eye-staff" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
                         </button>
                     </div>
-                </form>
+                    @error('password')
+                        <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Confirm Password</label>
+                    <div class="relative">
+                        <input type="password" name="password_confirmation" id="staff_password_confirm" required
+                            class="w-full px-5 py-4 pr-14 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                        <button type="button" onclick="togglePassword('staff_password_confirm', 'eye-staff-confirm')"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors">
+                            <svg id="eye-staff-confirm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
-
-            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="bg-slate-50 border-b border-slate-100">
-                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Name</th>
-                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Email</th>
-                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Added</th>
-                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-50">
-                        @forelse($staffAccounts ?? [] as $staff)
-                            <tr class="group transition-all hover:bg-slate-50/50">
-                                <td class="px-8 py-5">
-                                    <p class="font-extrabold text-slate-800">{{ $staff->name }}</p>
-                                    @if($staff->id === Auth::id())
-                                        <span class="text-[10px] font-black text-blue-500 bg-blue-50 px-2 py-0.5 rounded-lg">You</span>
+ 
+            {{-- ↓↓↓ NEW ROW: Birthdate + Age (auto) + Civil Status ↓↓↓ --}}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+ 
+                {{-- Birthdate --}}
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Birthdate</label>
+                    <input type="date" name="birthdate" id="staff_birthdate"
+                        value="{{ old('birthdate') }}"
+                        max="{{ date('Y-m-d') }}"
+                        onchange="calcStaffAge(this.value)"
+                        required
+                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold @error('birthdate') ring-2 ring-red-400 @enderror">
+                    @error('birthdate')
+                        <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
+                    @enderror
+                </div>
+ 
+                {{-- Age (auto-calculated, read-only) --}}
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                        Age
+                        <span class="text-blue-400 normal-case tracking-normal font-semibold">(auto-calculated)</span>
+                    </label>
+                    <input type="text" id="staff_age_display" readonly
+                        placeholder="Filled from birthdate"
+                        class="w-full px-5 py-4 bg-slate-100 border-none rounded-2xl outline-none font-semibold text-slate-500 cursor-default">
+                    {{-- Hidden input to submit age value --}}
+                    <input type="hidden" name="age" id="staff_age_hidden" value="{{ old('age') }}">
+                </div>
+ 
+                {{-- Civil Status --}}
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Civil Status</label>
+                    <div class="relative">
+                        <select name="civil_status" required
+                            class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-bold text-slate-700 appearance-none cursor-pointer @error('civil_status') ring-2 ring-red-400 @enderror">
+                            <option value="" disabled {{ old('civil_status') ? '' : 'selected' }}>Select status...</option>
+                            @foreach(['Single', 'Married', 'Widowed', 'Separated', 'Annulled'] as $cs)
+                                <option value="{{ $cs }}" {{ old('civil_status') === $cs ? 'selected' : '' }}>{{ $cs }}</option>
+                            @endforeach
+                        </select>
+                        <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                    @error('civil_status')
+                        <p class="text-[11px] text-red-500 font-semibold ml-1">{{ $message }}</p>
+                    @enderror
+                </div>
+ 
+            </div>
+            {{-- ↑↑↑ END NEW ROW ↑↑↑ --}}
+ 
+            <div class="mt-6 flex justify-end">
+                <button type="submit"
+                    class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-blue-100 active:scale-95">
+                    + Create Staff Account
+                </button>
+            </div>
+        </form>
+    </div>
+ 
+    {{-- Staff Table --}}
+    <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
+        <div class="overflow-x-auto w-full">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-100">
+                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Name</th>
+                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Email</th>
+                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Birthdate</th>
+                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Age</th>
+                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Civil Status</th>
+                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Added</th>
+                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right whitespace-nowrap">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    @forelse($staffAccounts ?? [] as $staff)
+                        <tr class="group transition-all hover:bg-slate-50/50">
+ 
+                            {{-- Name + You badge --}}
+                            <td class="px-8 py-5 whitespace-nowrap">
+                                <p class="font-extrabold text-slate-800">{{ $staff->name }}</p>
+                                @if($staff->id === Auth::id())
+                                    <span class="text-[10px] font-black text-blue-500 bg-blue-50 px-2 py-0.5 rounded-lg">You</span>
+                                @endif
+                            </td>
+ 
+                            {{-- Email --}}
+                            <td class="px-8 py-5 whitespace-nowrap">
+                                <p class="text-sm text-slate-500 font-medium">{{ $staff->email }}</p>
+                            </td>
+ 
+                            {{-- Birthdate --}}
+                            <td class="px-8 py-5 whitespace-nowrap">
+                                <p class="text-sm text-slate-600 font-semibold">
+                                    {{ $staff->birthdate ? $staff->birthdate->format('M d, Y') : '—' }}
+                                </p>
+                            </td>
+ 
+                            {{-- Age --}}
+                            <td class="px-8 py-5 whitespace-nowrap">
+                                @if($staff->birthdate)
+                                    <span class="text-[10px] font-black px-3 py-1 rounded-full bg-violet-50 text-violet-600 border border-violet-100">
+                                        {{ $staff->birthdate->age }} yrs
+                                    </span>
+                                @else
+                                    <span class="text-slate-300 font-semibold text-sm">—</span>
+                                @endif
+                            </td>
+ 
+                            {{-- Civil Status --}}
+                            <td class="px-8 py-5 whitespace-nowrap">
+                                @if($staff->civil_status)
+                                    <span class="text-[10px] font-black px-3 py-1 rounded-full uppercase
+                                        {{ $staff->civil_status === 'Single'    ? 'bg-green-50 text-green-600 border border-green-100'  : '' }}
+                                        {{ $staff->civil_status === 'Married'   ? 'bg-blue-50 text-blue-600 border border-blue-100'     : '' }}
+                                        {{ $staff->civil_status === 'Widowed'   ? 'bg-slate-100 text-slate-500 border border-slate-200' : '' }}
+                                        {{ $staff->civil_status === 'Separated' ? 'bg-amber-50 text-amber-600 border border-amber-100'  : '' }}
+                                        {{ $staff->civil_status === 'Annulled'  ? 'bg-red-50 text-red-500 border border-red-100'        : '' }}
+                                    ">
+                                        {{ $staff->civil_status }}
+                                    </span>
+                                @else
+                                    <span class="text-slate-300 font-semibold text-sm">—</span>
+                                @endif
+                            </td>
+ 
+                            {{-- Added date --}}
+                            <td class="px-8 py-5 whitespace-nowrap">
+                                <p class="text-sm text-slate-400 font-medium">{{ $staff->created_at->format('M d, Y') }}</p>
+                            </td>
+ 
+                            {{-- Actions --}}
+                            <td class="px-8 py-5">
+                                <div class="flex justify-end opacity-0 group-hover:opacity-100 transition-all">
+                                    @if($staff->id !== Auth::id())
+                                        <form action="{{ route('staff.destroy', $staff->id) }}" method="POST"
+                                            onsubmit="return confirm('Delete this staff account?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit"
+                                                class="p-2.5 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <span class="text-[10px] text-slate-300 font-bold">Cannot delete own account</span>
                                     @endif
-                                </td>
-                                <td class="px-8 py-5">
-                                    <p class="text-sm text-slate-500 font-medium">{{ $staff->email }}</p>
-                                </td>
-                                <td class="px-8 py-5">
-                                    <p class="text-sm text-slate-400 font-medium">{{ $staff->created_at->format('M d, Y') }}</p>
-                                </td>
-                                <td class="px-8 py-5">
-                                    <div class="flex justify-end opacity-0 group-hover:opacity-100 transition-all">
-                                        @if($staff->id !== Auth::id())
-                                            <form action="{{ route('staff.destroy', $staff->id) }}" method="POST" onsubmit="return confirm('Delete this staff account?')">
-                                                @csrf @method('DELETE')
-                                                <button type="submit" class="p-2.5 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
-                                                </button>
-                                            </form>
-                                        @else
-                                            <span class="text-[10px] text-slate-300 font-bold">Cannot delete own account</span>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="px-8 py-12 text-center text-slate-400 font-semibold">No staff accounts found.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="px-8 py-12 text-center text-slate-400 font-semibold">
+                                No staff accounts found.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
-
-
-   
-    <footer class="mt-12 text-center">
-        <p class="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em]">&copy; {{ date('Y') }} Barangay Online Services Portal</p>
-    </footer>
-
-   
+</div>
 
    <script>
     // ===== TAB SWITCHING =====
@@ -791,6 +934,8 @@ function switchTab(tabId) {
     }
 
     // ===== PASSWORD TOGGLE =====
+
+    
     function togglePassword(inputId, iconId) {
         const input = document.getElementById(inputId);
         const icon = document.getElementById(iconId);
@@ -800,7 +945,24 @@ function switchTab(tabId) {
         const eyeOpen = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
         const eyeSlash = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />`;
         icon.innerHTML = isHidden ? eyeOpen : eyeSlash;
+        
     }
+
+    function calcStaffAge(birthdate) {
+    if (!birthdate) return;
+    const today = new Date();
+    const dob = new Date(birthdate);
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+    document.getElementById('staff_age_display').value = age + ' years old';
+    document.getElementById('staff_age_hidden').value = age;
+}
+// Pre-fill age on page load if old() value exists (after validation error)
+document.addEventListener('DOMContentLoaded', function () {
+    const bd = document.getElementById('staff_birthdate');
+    if (bd && bd.value) calcStaffAge(bd.value);
+});
 
     // ===== EDIT RESIDENT MODAL =====
     function openEditModal(id, firstName, middleInitial, lastName, address) {
