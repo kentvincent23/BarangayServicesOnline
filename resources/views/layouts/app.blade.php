@@ -38,7 +38,7 @@
                     </button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="text-xs font-bold text-slate-600 px-4 py-2 hover:bg-slate-100 rounded-xl transition-all">Sign in</a>
+                <a href="{{ route('login') }}" class="text-xs font-bold text-slate-600 px-4 py-2 rounded-xl transition-all hover:bg-blue-700 hover:text-white shadow-sm">Sign in</a>
                 <a href="{{ route('register') }}" class="text-xs font-bold text-white bg-blue-700 px-4 py-2 rounded-xl hover:bg-blue-800 transition-all">Create Account</a>
             @endauth
         </div>

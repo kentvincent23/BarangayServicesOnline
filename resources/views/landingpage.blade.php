@@ -75,8 +75,9 @@
                 </div>
             </div>
         </div>
-          <footer class="mt-12 text-center">
-        <p class="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em]">&copy; {{ date('Y') }} Barangay Online Services Portal</p>
-    </footer>
+        <div class=""></div>
+          <footer class="fixed bottom-0 left-0 w-full backdrop-blur-sm py-4 text-center z-50">
+    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em]"> &copy; {{ date('Y') }} Barangay Online Services Portal </p>
+          </footer>
     </main>
 @endsection

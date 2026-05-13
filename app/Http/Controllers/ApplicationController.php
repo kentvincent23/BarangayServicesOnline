@@ -7,6 +7,7 @@ use App\Models\BarangayResident;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
@@ -96,16 +97,14 @@ class ApplicationController extends Controller
 
     public function markReady(Application $application)
     {
-        if ($application->id_image_path) {
-            $filePath = storage_path('app/public/' . $application->id_image_path);
-            if (file_exists($filePath)) {
-                unlink($filePath);
-            }
+        // If a path exists, delete the file using the 'public' disk
+        if ($application->id_image_path && Storage::disk('public')->exists($application->id_image_path)) {
+            Storage::disk('public')->delete($application->id_image_path);
         }
 
         $application->update([
             'status' => 'ready_to_pickup',
-            'id_image_path' => null
+            'id_image_path' => null // Clear the path in DB so it doesn't look for a dead file
         ]);
 
         return back()->with('success', 'Verified! ID image purged.');
@@ -118,8 +117,16 @@ class ApplicationController extends Controller
     }
     public function reject(Application $application)
     {
-        $application->update(['status' => 'rejected']);
+        // Perform the same cleanup for rejected applications
+        if ($application->id_image_path && Storage::disk('public')->exists($application->id_image_path)) {
+            Storage::disk('public')->delete($application->id_image_path);
+        }
 
-        return redirect()->back()->with('success', 'Application has been rejected.');
+        $application->update([
+            'status' => 'rejected',
+            'id_image_path' => null // Clear the path in DB
+        ]);
+
+        return redirect()->back()->with('success', 'Application has been rejected and ID image purged.');
     }
 }
