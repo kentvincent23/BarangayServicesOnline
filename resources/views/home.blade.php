@@ -28,14 +28,7 @@
         @include('userpage') {{-- This just pastes the HTML inside the section --}}
     @endif
 
-    {{-- ===== STAFF DASHBOARD ===== --}}
-    {{-- ===== STAFF DASHBOARD ===== --}}
-    {{-- ===== STAFF DASHBOARD ===== --}}
-    {{-- ===== STAFF DASHBOARD ===== --}}
-    {{-- ===== STAFF DASHBOARD ===== --}}
-    {{-- ===== STAFF DASHBOARD ===== --}}
-    {{-- ===== STAFF DASHBOARD ===== --}}
-    {{-- ===== STAFF DASHBOARD ===== --}}
+   
     {{-- ===== STAFF DASHBOARD ===== --}}
 
     <div class="w-full px-4 md:px-6 px-4 md:px-6 pt-8">
@@ -79,6 +72,19 @@
             <p class="tab-label text-sm font-extrabold text-slate-400 leading-none ">Staff Accounts</p>
         </div>
     </button>
+
+        <button onclick="switchTab('service')" id="tab-service"
+                class="tab-nav group bg-white pl-2 pr-6 py-2 rounded-[2rem] shadow-sm border border-slate-200 flex items-center gap-3 transition-all hover:shadow-md active:scale-95 cursor-pointer">
+                <div class="icon-box pointer-events-none bg-slate-50 p-3 rounded-2xl text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+                </div>
+                <div class="text-left pointer-events-none ">
+                    <p class="tab-label text-sm font-extrabold text-slate-400 leading-none ">Services</p>
+                </div>
+            </button>
 </div>
         <div class="flex items-center gap-3">
             <div class="group bg-white pl-2 pr-6 py-2 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3 hover:border-violet-200 transition-colors">
@@ -253,53 +259,94 @@
 
                                 {{-- Status --}}
                                 <td class="px-6 py-5 text-center whitespace-nowrap">
-                                    @if($app->status === 'approved')
+                                    @if($app->status === 'pending')
+                                        <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-yellow-100 text-yellow-600 border border-blue-200/50">Pending</span>
+                                    @elseif($app->status === 'approved')
                                         <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-600 border border-blue-200/50">Approved</span>
+                                    @elseif($app->status === 'processing')
+                                        <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-cyan-100 text-cyan-600 border border-blue-200/50">Processing</span>
                                     @elseif($app->status === 'ready_to_pickup')
                                         <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-600 border border-emerald-200/50">Ready to Pick Up</span>
                                     @elseif($app->status === 'released')
                                         <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-violet-100 text-violet-600 border border-violet-200/50">Released</span>
                                     @elseif($app->status === 'rejected')
                                         <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-red-100 text-red-600 border border-red-200/50">Rejected</span>
+                                    @elseif($app->status === 'missed')
+                                        <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-gray-100 text-gray-600 border border-red-200/50">Missed</span>
                                     @endif
                                 </td>
 
                                 {{-- Actions --}}
                                 <td class="px-6 py-5">
-                                    <div class="flex justify-end items-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
-                                        @if($app->status === 'approved')
-                                            <form action="{{ route('applications.ready', $app->id) }}" method="POST">
-                                                @csrf @method('PATCH')
-                                                <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8" />
-                                                    </svg>
-                                                    Ready to Pick Up
-                                                </button>
-                                            </form>
-                                            <form action="{{ route('applications.reject', $app->id) }}" method="POST" onsubmit="return confirm('Reject this application?')">
-                                                @csrf @method('PATCH')
-                                                <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                                    </svg>
-                                                    Reject
-                                                </button>
-                                            </form>
-                                        @elseif($app->status === 'ready_to_pickup')
-                                            <form action="{{ route('applications.release', $app->id) }}" method="POST">
-                                                @csrf @method('PATCH')
-                                                <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-violet-50 text-violet-600 rounded-xl hover:bg-violet-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-                                                    Mark as Released
-                                                </button>
-                                            </form>
-                                        @endif
-                                       
-                                    </div>
-                                </td>
+    <div class="flex justify-end items-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
+        
+        {{-- 1. PENDING -> Move to Processing or Reject --}}
+{{-- 1. PENDING -> Approve or Reject --}}
+                @if($app->status === 'pending')
+                    <form action="{{ route('applications.approve', $app->id) }}" method="POST">
+                        @csrf @method('PATCH')
+                        <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Approve
+                        </button>
+                    </form>
+                    <form action="{{ route('applications.reject', $app->id) }}" method="POST" onsubmit="return confirm('Reject this application?')">
+                        @csrf @method('PATCH')
+                        <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Reject
+                        </button>
+                    </form>
+
+                {{-- 2. APPROVED -> Start Processing --}}
+                @elseif($app->status === 'approved')
+                    <form action="{{ route('applications.process', $app->id) }}" method="POST">
+                        @csrf @method('PATCH')
+                        <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Start Processing
+                        </button>
+                    </form>
+
+                {{-- 3. PROCESSING -> Ready to Pick Up --}}
+                @elseif($app->status === 'processing')
+                    <form action="{{ route('applications.ready', $app->id) }}" method="POST">
+                        @csrf @method('PATCH')
+                        <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8" />
+                            </svg>
+                            Ready to Pick Up
+                        </button>
+                    </form>
+
+                {{-- 4. READY TO PICKUP -> Released or Missed --}}
+                @elseif($app->status === 'ready_to_pickup')
+                    <form action="{{ route('applications.release', $app->id) }}" method="POST">
+                        @csrf @method('PATCH')
+                        <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-violet-50 text-violet-600 rounded-xl hover:bg-violet-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Mark as Released
+                        </button>
+                    </form>
+                    <form action="{{ route('applications.missed', $app->id) }}" method="POST" onsubmit="return confirm('Mark as Missed?')">
+                        @csrf @method('PATCH')
+                        <button type="submit" class="flex items-center gap-1.5 px-3 py-2 bg-gray-50 text-gray-600 rounded-xl hover:bg-gray-600 hover:text-white transition-all text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
+                            Mark Missed
+                        </button>
+                    </form>
+
+                @endif                         
+    </div>
+</td>
                             </tr>
                         @empty
                             <tr>
@@ -683,7 +730,6 @@
                             <td class="px-8 py-5 whitespace-nowrap">
                                 <p class="font-extrabold text-slate-800">
                                         {{ strtoupper(trim("{$staff->first_name} {$staff->middle_name} {$staff->last_name}")) }}
-
                                 </p>
                                 @if($staff->id === Auth::id())
                                     <span class="text-[10px] font-black text-blue-500 bg-blue-50 px-2 py-0.5 rounded-lg">You</span>
@@ -768,11 +814,100 @@
     </div>
 </div>
 
+{{--Service types tab--}}
+
+<div id="panel-service" class="hidden animate-in fade-in duration-500">
+    <!-- Form Section -->
+    <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 mb-8">
+        <h3 class="text-lg font-black text-slate-800 mb-6">Service Type</h3>
+        
+        <form action="{{ route('services.store') }}" method="POST">
+            @csrf
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Service Name -->
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Service Name</label>
+                    <input type="text" name="name" placeholder="e.g., Barangay Clearance" required
+                        class="w-full bg-slate-50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-blue-500 transition-all">
+                </div>
+
+                <!-- Availability Toggle -->
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Status</label>
+                    <select name="is_active" 
+                        class="w-full bg-slate-50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-blue-500 transition-all">
+                        <option value="1">Available</option>
+                        <option value="0">Not Available</option>
+                    </select>
+                </div>
+
+                <!-- Description -->
+                <div class="md:col-span-2 space-y-2">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Description</label>
+                    <textarea name="description" rows="3" placeholder="Brief details about this document..."
+                        class="w-full bg-slate-50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-blue-500 transition-all"></textarea>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-end">
+                <button type="submit" 
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-black py-4 px-10 rounded-2xl text-xs uppercase tracking-widest shadow-lg shadow-blue-200 transition-all active:scale-95 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Add Service
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Table Section -->
+    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b border-slate-50">
+                    <th class="py-6 px-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Service Name</th>
+                    <th class="py-6 px-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Description</th>
+                    <th class="py-6 px-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Status</th>
+                    <th class="py-6 px-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-50">
+                @foreach($serviceTypes as $service)
+                <tr class="hover:bg-slate-50/50 transition-colors group">
+                    <td class="py-6 px-8">
+                        <p class="text-sm font-black text-slate-800">{{ $service->name }}</p>
+                    </td>
+                    <td class="py-6 px-8">
+                        <p class="text-xs font-bold text-slate-400 line-clamp-1">{{ $service->description ?? 'No description' }}</p>
+                    </td>
+                    <td class="py-6 px-8">
+                        @if($service->is_active)
+                            <span class="px-3 py-1 bg-emerald-50 text-emerald-500 text-[10px] font-black uppercase tracking-tighter rounded-lg">Available</span>
+                        @else
+                            <span class="px-3 py-1 bg-rose-50 text-rose-500 text-[10px] font-black uppercase tracking-tighter rounded-lg">Unavailable</span>
+                        @endif
+                    </td>
+                    <td class="py-6 px-8 text-right">
+                        <button class="text-slate-300 hover:text-blue-600 transition-colors p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
    <script>
     // ===== TAB SWITCHING =====
 function switchTab(tabId) {
     // 1. Define all possible tabs/panels
-    const tabs = ['applications', 'registry', 'staff'];
+    const tabs = ['applications', 'registry', 'staff', 'service'];
 
     tabs.forEach(t => {
         const panel = document.getElementById('panel-' + t);
@@ -970,8 +1105,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('editModal')?.addEventListener('click', function(e) {
         if (e.target === this) closeEditModal();
     });
+
+    
 </script>
 </body>
- 
 @endsection
 </html>

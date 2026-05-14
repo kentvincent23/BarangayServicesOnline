@@ -35,7 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/applications/{application}', [ApplicationController::class, 'destroy'])->name('applications.destroy');
 
     // Status Updates (Use PATCH or POST consistently)
+    Route::patch('/applications/{application}/process', [ApplicationController::class, 'process'])->name('applications.process');
+    Route::patch('/applications/{application}/approve', [ApplicationController::class, 'approve'])->name('applications.approve');
     Route::patch('/applications/{application}/ready', [ApplicationController::class, 'markReady'])->name('applications.ready');
+    Route::patch('/applications/{application}/missed', [ApplicationController::class, 'missed'])->name('applications.missed');
     Route::patch('/applications/{application}/release', [ApplicationController::class, 'release'])->name('applications.release');
     Route::patch('/applications/{application}/reject', [ApplicationController::class, 'reject'])->name('applications.reject');
 
@@ -47,4 +50,7 @@ Route::middleware('auth')->group(function () {
     // Staff accounts
     Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');
     Route::delete('/staff/{user}', [StaffController::class, 'destroy'])->name('staff.destroy');
+
+    //Service types
+    Route::post('/services/store', [ApplicationController::class, 'storeService'])->name('services.store');
 });

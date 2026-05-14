@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Models\BarangayResident;
+use App\Models\ServiceType; // Added this
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,9 @@ class ApplicationController extends Controller
             $staffAccounts = User::where('role', 'staff')->latest()->get();
             $staffCount    = $staffAccounts->count();
 
+            // Fetch active service types from DB
+            $serviceTypes = ServiceType::latest()->get();
+
             return view('home', compact(
                 'applications',
                 'approvedCount',
@@ -41,25 +45,44 @@ class ApplicationController extends Controller
                 'residentCount',
                 'staffAccounts',
                 'staffCount',
-                'search'
+                'search',
+                'serviceTypes' // Pass to view
             ));
         }
 
-        return view('home');
+        // If not staff, still fetch service types for the resident's form
+        $serviceTypes = ServiceType::where('is_active', true)->get();
+        return view('home', compact('serviceTypes'));
     }
 
     public function store(Request $request)
     {
+        // Block if they have an active request in ANY of these stages
+        $activeStatuses = [
+            'pending',
+            'processing',
+            'approved',
+            'ready_to_pickup'
+        ];
+
+        $exists = Application::where('user_id', Auth::id())
+            ->where('service_type_id', $request->service_type_id)
+            ->whereIn('status', $activeStatuses)
+            ->exists();
+
+        if ($exists) {
+            return back()->withErrors(['service_type_id' => 'You already have an active request for this service. Please check']);
+        }
         $request->validate([
             'first_name'   => 'required|string|max:100',
             'middle_name'  => 'nullable|string|max:100',
             'last_name'    => 'required|string|max:100',
             'age'          => 'required|integer',
             'civil_status' => 'required|string',
-            'service_type' => 'required|string',
+            'service_type_id' => 'required|exists:service_types,id',
             'purpose'      => 'required|string|max:255',
             'notes'        => 'nullable|string',
-            'id_image' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+            'id_image'     => 'required|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
         $resident = BarangayResident::whereRaw('LOWER(first_name) = ?', [strtolower($request->first_name)])
@@ -72,10 +95,8 @@ class ApplicationController extends Controller
                 ->withErrors(['not_resident' => 'You are not a registered resident. Please visit the barangay hall.']);
         }
 
-        // NEW: Handle File Upload
         $idPath = null;
         if ($request->hasFile('id_image')) {
-            // Stores file in storage/app/public/temp_ids
             $idPath = $request->file('id_image')->store('temp_ids', 'public');
         }
 
@@ -85,29 +106,56 @@ class ApplicationController extends Controller
             'user_id'       => Auth::id(),
             'resident_name' => $fullName,
             'resident_id'   => $resident->resident_id,
-            'document_type' => $request->service_type,
+            'service_type_id' => $request->service_type_id, // Store the foreign key
             'purpose'       => $request->purpose,
             'notes'         => $request->notes,
-            'id_image_path' => $idPath, // Save the path to the DB
-            'status'        => 'approved',
+            'id_image_path' => $idPath,
+            'status'        => 'pending',
         ]);
 
-        return back()->with('success', 'Application submitted! Admin will verify your ID shortly.');
+        return back()->with('success', 'Application submitted! Please wait for I.D verification');
     }
-
-    public function markReady(Application $application)
+    public function process(Application $application)
     {
-        // If a path exists, delete the file using the 'public' disk
+        // Ensure we are only processing things that are currently pending
+        if ($application->status !== 'approved') {
+            return back()->with('error', 'This application is not in a pending state.');
+        }
+
+        $application->update(['status' => 'processing']);
+
+        return back()->with('success', 'Application status updated to Processing.');
+    }
+    public function approve(Application $application)
+    {
         if ($application->id_image_path && Storage::disk('public')->exists($application->id_image_path)) {
             Storage::disk('public')->delete($application->id_image_path);
         }
 
+        $application->update(['status' => 'approved', 'id_image_path' => null]);
+
+        return back()->with('success', 'Application has been approved. ID verified');
+    }
+    public function missed(Application $application)
+    {
+        // You might want to ensure it can only be marked missed if it was 'ready_to_pickup'
+        if ($application->status !== 'ready_to_pickup') {
+            return back()->with('error', 'Only applications ready for pickup can be marked as missed.');
+        }
+
+        $application->update(['status' => 'missed']);
+
+        return back()->with('success', 'Application marked as missed.');
+    }
+
+    public function markReady(Application $application)
+    {
+
         $application->update([
-            'status' => 'ready_to_pickup',
-            'id_image_path' => null // Clear the path in DB so it doesn't look for a dead file
+            'status' => 'ready_to_pickup'
         ]);
 
-        return back()->with('success', 'Verified! ID image purged.');
+        return back()->with('success', 'Application marked as ready to pick up.');
     }
 
     public function release(Application $application)
@@ -128,5 +176,18 @@ class ApplicationController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Application has been rejected and ID image purged.');
+    }
+
+    public function storeService(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'is_active' => 'required|boolean'
+        ]);
+
+        \App\Models\ServiceType::create($request->all());
+
+        return back()->with('success', 'New service type added successfully!');
     }
 }

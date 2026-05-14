@@ -10,12 +10,16 @@ class Application extends Model
         'user_id',
         'resident_name',
         'resident_id',
-        'document_type',
+        'service_type_id',
         'purpose',
         'notes',
         'id_image_path', // <--- MUST BE EXACTLY THIS
         'status',
     ];
+    public function serviceType()
+    {
+        return $this->belongsTo(ServiceType::class, 'service_type_id');
+    }
 
     public function user()
     {
