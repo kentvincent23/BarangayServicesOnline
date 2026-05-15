@@ -4,6 +4,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\ServiceController;
 
 if (\Illuminate\Support\Facades\Auth::check()) {
     return redirect()->route('home');
@@ -16,7 +17,12 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('home');
     }
-    return view('landingpage');
+
+    // FETCH THE SERVICES HERE
+    $serviceTypes = \App\Models\ServiceType::where('is_active', true)->get();
+
+    // PASS THEM TO THE VIEW
+    return view('landingpage', compact('serviceTypes'));
 })->name('landing');
 
 // This is your actual dashboard route
@@ -53,4 +59,5 @@ Route::middleware('auth')->group(function () {
 
     //Service types
     Route::post('/services/store', [ApplicationController::class, 'storeService'])->name('services.store');
+    Route::patch('/services/{serviceType}', [ServiceController::class, 'update'])->name('services.update');
 });

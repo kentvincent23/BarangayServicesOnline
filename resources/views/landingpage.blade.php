@@ -116,7 +116,7 @@
     </div>
 
     {{-- Vision Mission Goal --}}
-    <div class="max-w-4xl mx-auto px-4 py-14">
+    <div class="max-w-4xl mx-auto px-4 py-14" id="foundation">
         <p class="text-[11px] font-black text-blue-600 uppercase tracking-widest text-center mb-8">Our Foundation</p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
 
@@ -168,72 +168,49 @@
         </div>
     </div>
 
-    {{-- Services We Offer --}}
-    <div class="bg-slate-50 py-14 border-t border-slate-100">
-        <div class="max-w-4xl mx-auto px-4">
-            <p class="text-[11px] font-black text-blue-600 uppercase tracking-widest text-center mb-2">What We Offer</p>
-            <h2 class="text-2xl sm:text-3xl font-black text-slate-900 text-center mb-10 tracking-tight">Barangay Services</h2>
+ {{-- Dynamic Services We Offer --}}
+<div class="bg-slate-50 py-14 border-t border-slate-100 " id="services">
+    <div class="max-w-4xl mx-auto px-4">
+        <p class="text-[11px] font-black text-blue-600 uppercase tracking-widest text-center mb-2">What We Offer</p>
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 text-center mb-10 tracking-tight">Barangay Services</h2>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            @foreach($serviceTypes as $service)
                 <div class="bg-white p-5 rounded-2xl border border-slate-100 flex items-start gap-4 hover:border-blue-200 hover:shadow-sm transition-all">
+                    {{-- Blue Icon Container --}}
                     <div class="bg-blue-50 p-2.5 rounded-xl shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
+
+                    {{-- Dynamic Content --}}
                     <div>
-                        <p class="text-sm font-black text-slate-800">Barangay Clearance</p>
-                        <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">Certifies that a resident has no pending case within the barangay. Required for employment, business, and legal transactions.</p>
+                        <p class="text-sm font-black text-slate-800">{{ $service->name }}</p>
+                        <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                            {{ $service->description ?? 'No description available for this service.' }}
+                        </p>
                     </div>
                 </div>
+            @endforeach
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-100 flex items-start gap-4 hover:border-blue-200 hover:shadow-sm transition-all">
-                    <div class="bg-blue-50 p-2.5 rounded-xl shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-sm font-black text-slate-800">Certificate of Residency</p>
-                        <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">Proof that a person is a bonafide resident of the barangay. Commonly used for school enrollment and government transactions.</p>
-                    </div>
+            {{-- Fallback if no services are added yet --}}
+            @if($serviceTypes->isEmpty())
+                <div class="col-span-full py-10 text-center">
+                    <p class="text-slate-400 text-sm italic font-bold">More services coming soon.</p>
                 </div>
+            @endif
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-100 flex items-start gap-4 hover:border-blue-200 hover:shadow-sm transition-all">
-                    <div class="bg-blue-50 p-2.5 rounded-xl shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-sm font-black text-slate-800">Certificate of Indigency</p>
-                        <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">Issued to residents who qualify as low-income individuals. Used to avail government assistance, medical aid, and scholarships.</p>
-                    </div>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-slate-100 flex items-start gap-4 hover:border-blue-200 hover:shadow-sm transition-all">
-                    <div class="bg-blue-50 p-2.5 rounded-xl shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-sm font-black text-slate-800">Barangay Business Permit</p>
-                        <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">Required clearance for all businesses operating within the barangay before securing a city business permit.</p>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </div>
-
+</div>
     {{-- How It Works --}}
-    <div class="max-w-4xl mx-auto px-4 py-14">
+    <div class="max-w-4xl mx-auto px-4 py-14 " id="howitworks">
         <p class="text-[11px] font-black text-blue-600 uppercase tracking-widest text-center mb-2">Simple Process</p>
         <h2 class="text-2xl sm:text-3xl font-black text-slate-900 text-center mb-10 tracking-tight">How It Works</h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center ">
             <div class="flex flex-col items-center gap-3">
                 <div class="w-12 h-12 bg-blue-700 text-white rounded-2xl flex items-center justify-center font-black text-lg shadow-lg shadow-blue-200">1</div>
                 <p class="text-sm font-black text-slate-800">Create an Account</p>

@@ -190,9 +190,6 @@ class ApplicationController extends Controller
             'description' => 'nullable|string',
             'is_active' => 'required|boolean'
         ]);
-
-        \App\Models\ServiceType::create($request->all());
-
         return back()->with('success', 'New service type added successfully!');
     }
 }

@@ -901,7 +901,9 @@
                         @endif
                     </td>
                     <td class="py-6 px-8 text-right">
-                        <button class="text-slate-300 hover:text-blue-600 transition-colors p-2">
+                        <button 
+                            onclick="openEditModal({{ json_encode($service) }})"
+                            class="text-slate-300 hover:text-blue-600 transition-colors p-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
@@ -912,6 +914,61 @@
             </tbody>
         </table>
     </div>
+    <div id="editServiceModal" class="fixed inset-0 z-[60] hidden overflow-y-auto">
+    <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-black text-slate-800">Edit Service Type</h3>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-slate-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <form id="editServiceForm" method="POST">
+                @csrf
+                @method('PATCH')
+                
+                <div class="space-y-5">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Service Name</label>
+                        <input type="text" name="name" id="edit_name" required
+                            class="w-full bg-slate-50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Availability</label>
+                        <select name="is_active" id="edit_is_active"
+                            class="w-full bg-slate-50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-blue-500">
+                            <option value="1">Available</option>
+                            <option value="0">Not Available</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Description</label>
+                        <textarea name="description" id="edit_description" rows="3"
+                            class="w-full bg-slate-50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex gap-3">
+                    <button type="button" onclick="closeEditModal()"
+                        class="flex-1 bg-slate-100 text-slate-600 font-black py-4 rounded-2xl text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="flex-1 bg-blue-600 text-white font-black py-4 rounded-2xl text-xs uppercase tracking-widest hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </div>
 
 
@@ -1117,6 +1174,29 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('editModal')?.addEventListener('click', function(e) {
         if (e.target === this) closeEditModal();
     });
+
+    function openEditModal(service) {
+    const modal = document.getElementById('editServiceModal');
+    const form = document.getElementById('editServiceForm');
+    
+    // Set the form action URL (Assumes your route is /services/{id})
+    form.action = `/services/${service.id}`;
+    
+    // Fill the inputs
+    document.getElementById('edit_name').value = service.name;
+    document.getElementById('edit_description').value = service.description || '';
+    document.getElementById('edit_is_active').value = service.is_active;
+
+    // Show modal
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Prevent background scroll
+}
+
+function closeEditModal() {
+    const modal = document.getElementById('editServiceModal');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
 
     
 </script>
