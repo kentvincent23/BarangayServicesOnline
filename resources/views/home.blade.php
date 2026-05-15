@@ -128,9 +128,17 @@
                 class="status-btn px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all bg-slate-800 text-white">
                 All
             </button>
+            <button onclick="setStatus('pending')" id="status-pending"
+                class="status-btn px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all bg-slate-100 text-slate-500 hover:bg-yellow-500 hover:text-white">
+                Pending
+            </button>
             <button onclick="setStatus('approved')" id="status-approved"
                 class="status-btn px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all bg-slate-100 text-slate-500 hover:bg-blue-500 hover:text-white">
                 Approved
+            </button>
+            <button onclick="setStatus('processing')" id="status-processing"
+                class="status-btn px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all bg-slate-100 text-slate-500 hover:bg-cyan-500 hover:text-white">
+                Processing
             </button>
             <button onclick="setStatus('ready_to_pickup')" id="status-ready_to_pickup"
                 class="status-btn px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all bg-slate-100 text-slate-500 hover:bg-green-500 hover:text-white">
@@ -143,6 +151,10 @@
             <button onclick="setStatus('rejected')" id="status-rejected"
                 class="status-btn px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all bg-slate-100 text-slate-500 hover:bg-red-500 hover:text-white">
                 Rejected
+            </button>
+            <button onclick="setStatus('missed')" id="status-missed"
+                class="status-btn px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all bg-slate-100 text-slate-500 hover:bg-gray-500 hover:text-white">
+                Missed
             </button>
         </div>
 

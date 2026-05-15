@@ -128,13 +128,18 @@ class ApplicationController extends Controller
     }
     public function approve(Application $application)
     {
-        if ($application->id_image_path && Storage::disk('public')->exists($application->id_image_path)) {
+        // 1. Delete the image from storage if it exists
+        if ($application->id_image_path) {
             Storage::disk('public')->delete($application->id_image_path);
         }
 
-        $application->update(['status' => 'approved', 'id_image_path' => null]);
+        // 2. Update status and clear the database path
+        $application->update([
+            'status' => 'approved',
+            'id_image_path' => null // Set to null so the link is gone
+        ]);
 
-        return back()->with('success', 'Application has been approved. ID verified');
+        return back()->with('success', 'Application has been approved. ID verified and image purged.');
     }
     public function missed(Application $application)
     {

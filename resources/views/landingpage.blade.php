@@ -30,7 +30,7 @@
 
         {{-- Title --}}
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-4">
-            Your Barangay,<br>
+            Mankilam,<br>
             <span class="text-blue-700">Now Online.</span>
         </h1>
 
@@ -97,7 +97,7 @@
     <div class="bg-blue-700 py-10">
         <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
             <div>
-                <p class="text-2xl sm:text-3xl font-black text-white">5,000+</p>
+                <p class="text-2xl sm:text-3xl font-black text-white">42,500+</p>
                 <p class="text-[10px] font-black text-blue-200 uppercase tracking-widest mt-1">Residents</p>
             </div>
             <div>
@@ -237,7 +237,7 @@
             <div class="flex flex-col items-center gap-3">
                 <div class="w-12 h-12 bg-blue-700 text-white rounded-2xl flex items-center justify-center font-black text-lg shadow-lg shadow-blue-200">1</div>
                 <p class="text-sm font-black text-slate-800">Create an Account</p>
-                <p class="text-xs text-slate-500 leading-relaxed">Register with your name and basic details to get started as a verified resident.</p>
+                <p class="text-xs text-slate-500 leading-relaxed">Register with your name and basic details to get started, User must be a barangay resident.</p>
             </div>
             <div class="flex flex-col items-center gap-3">
                 <div class="w-12 h-12 bg-blue-700 text-white rounded-2xl flex items-center justify-center font-black text-lg shadow-lg shadow-blue-200">2</div>

@@ -15,8 +15,8 @@ return new class extends Migration
             // We list ALL the options we want available now
             $table->enum('status', [
                 'pending',
-                'processing',
                 'approved',
+                'processing',
                 'ready_to_pickup', // make sure this matches your exact old name
                 'rejected',
                 'released'
