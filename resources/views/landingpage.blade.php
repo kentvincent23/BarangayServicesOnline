@@ -29,9 +29,9 @@
             class="h-24 sm:h-28 w-auto object-contain rounded-2xl shadow-md border border-white mb-6">
 
         {{-- Title --}}
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-4">
-            Mankilam,<br>
-            <span class="text-blue-700">Now Online.</span>
+        <h1 class="text-4xl sm:text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-4">
+            Bringing Mankilam Closer to You.<br>
+            
         </h1>
 
         {{-- Subtitle --}}
