@@ -15,6 +15,7 @@ class Application extends Model
         'notes',
         'id_image_path', // <--- MUST BE EXACTLY THIS
         'status',
+        'rejection_reason',
     ];
     public function serviceType()
     {

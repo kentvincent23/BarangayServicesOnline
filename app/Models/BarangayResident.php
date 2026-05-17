@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class BarangayResident extends Model
 {
-    protected $table = 'barangay_residents';
+    use HasFactory;
+
 
     protected $fillable = [
         'resident_id',
         'first_name',
-        'middle_name',  // was middle_initial — change this
+        'middle_name',
         'last_name',
-        'birthdate',   // add this
+        'birthdate',
+        'gender',
         'age',
         'civil_status',
         'address',

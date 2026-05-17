@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\AnnouncementController;
 
 if (\Illuminate\Support\Facades\Auth::check()) {
     return redirect()->route('home');
@@ -60,4 +61,7 @@ Route::middleware('auth')->group(function () {
     //Service types
     Route::post('/services/store', [ApplicationController::class, 'storeService'])->name('services.store');
     Route::patch('/services/{serviceType}', [ServiceController::class, 'update'])->name('services.update');
+
+    //announcement
+    Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
 });

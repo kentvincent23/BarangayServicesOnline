@@ -96,30 +96,56 @@
                             </div>
 
                             {{-- Age + Civil Status --}}
-                            <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                                <div class="space-y-1.5">
-                                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Age</label>
-                                    <input type="number" name="age" value="{{ old('age', Auth::user()->age ?? '') }}"
-                                        class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-sm transition-all" required>
-                                </div>
-                                <div class="space-y-1.5">
-                                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Civil Status</label>
-                                    <div class="relative">
-                                        <select name="civil_status" required
-                                            class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-700 appearance-none cursor-pointer text-sm transition-all">
-                                            <option value="" disabled {{ old('civil_status', Auth::user()->civil_status ?? '') == '' ? 'selected' : '' }}>Select</option>
-                                            @foreach(['Single', 'Married', 'Widowed', 'Separated'] as $status)
-                                                <option value="{{ $status }}" {{ old('civil_status', Auth::user()->civil_status ?? '') == $status ? 'selected' : '' }}>{{ $status }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+    <div class="space-y-1.5">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Age</label>
+        <input type="number" name="age" value="{{ old('age', Auth::user()->age ?? '') }}"
+            class="w-full px-3 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-sm transition-all" required>
+    </div>
+    <div class="space-y-1.5">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Civil Status</label>
+        <div class="relative">
+            <select name="civil_status" required
+                class="w-full px-3 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-700 appearance-none cursor-pointer text-sm transition-all">
+                <option value="" disabled {{ old('civil_status', Auth::user()->civil_status ?? '') == '' ? 'selected' : '' }}>Select</option>
+                @foreach(['Single', 'Married', 'Widowed', 'Separated'] as $status)
+                    <option value="{{ $status }}" {{ old('civil_status', Auth::user()->civil_status ?? '') == $status ? 'selected' : '' }}>{{ $status }}</option>
+                @endforeach
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Gender --}}
+<div class="space-y-1.5">
+    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Gender</label>
+    <div class="grid grid-cols-2 gap-2">
+        @foreach(['Male', 'Female'] as $gender)
+        <label class="relative cursor-pointer">
+            <input type="radio" name="gender" value="{{ $gender }}"
+                {{ old('gender', Auth::user()->gender ?? '') == $gender ? 'checked' : '' }}
+                class="peer sr-only" required>
+            <div class="flex items-center justify-center gap-2 px-3 py-3 bg-slate-50 border border-slate-100 rounded-xl text-[11px] font-black text-slate-500 uppercase tracking-wider transition-all peer-checked:bg-blue-700 peer-checked:border-blue-700 peer-checked:text-white hover:border-blue-300 hover:bg-blue-50">
+                @if($gender === 'Male')
+                    <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                @else
+                    <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                @endif
+                {{ $gender }}
+            </div>
+        </label>
+        @endforeach
+    </div>
+</div>
 
                             {{-- Service + Purpose --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -323,22 +349,27 @@
 </div>
 
 <script>
-    function toggleForm() {
-        const wrapper = document.getElementById('form-wrapper');
-        const label = document.getElementById('btn-label');
-        const isOpen = wrapper.style.opacity === '1';
+   function toggleForm() {
+    const wrapper = document.getElementById('form-wrapper');
+    const label = document.getElementById('btn-label');
+    const btn = document.getElementById('request-trigger');
+    const isOpen = wrapper.style.opacity === '1';
 
-        if (!isOpen) {
-            wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
-            wrapper.style.opacity = '1';
-            setTimeout(() => wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-            label.textContent = 'Close Form';
-        } else {
-            wrapper.style.maxHeight = '0';
-            wrapper.style.opacity = '0';
-            label.textContent = 'Click Here to Request a Service';
-        }
+    if (!isOpen) {
+        wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+        wrapper.style.opacity = '1';
+        setTimeout(() => wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        label.textContent = 'Close Form';
+        btn.classList.remove('bg-blue-700', 'hover:bg-blue-800', 'shadow-blue-200');
+        btn.classList.add('bg-red-500', 'hover:bg-red-600', 'shadow-red-200');
+    } else {
+        wrapper.style.maxHeight = '0';
+        wrapper.style.opacity = '0';
+        label.textContent = 'Click Here to Request a Service';
+        btn.classList.remove('bg-red-500', 'hover:bg-red-600', 'shadow-red-200');
+        btn.classList.add('bg-blue-700', 'hover:bg-blue-800', 'shadow-blue-200');
     }
+}
 </script>
 
 @endsection

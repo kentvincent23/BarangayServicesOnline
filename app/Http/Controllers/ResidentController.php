@@ -10,13 +10,14 @@ class ResidentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'first_name'  => 'required|string|max:100',
-            'middle_name' => 'nullable|string|max:100',
-            'last_name'   => 'required|string|max:100',
-            'birth_date'  => 'required|date',
-            'age'         => 'required|integer',
+            'first_name'   => 'required|string|max:100',
+            'middle_name'  => 'nullable|string|max:100',
+            'last_name'    => 'required|string|max:100',
+            'birth_date'   => 'required|date',
+            'gender'       => 'required|in:Male,Female',
+            'age'          => 'required|integer',
             'civil_status' => 'required|string',
-            'address'     => 'required|string|max:255',
+            'address'      => 'required|string|max:255',
         ]);
 
         // Check for duplicate full name
@@ -39,47 +40,68 @@ class ResidentController extends Controller
 
         BarangayResident::create([
             'resident_id'  => $resId,
-            'first_name'  => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name'   => $request->last_name,
-            'birthdate'  => $request->birth_date,
-            'age'         => $request->age,
+            'first_name'   => $request->first_name,
+            'middle_name'  => $request->middle_name,
+            'last_name'    => $request->last_name,
+            'birthdate'    => $request->birth_date,
+            'gender'       => $request->gender,
+            'age'          => $request->age,
             'civil_status' => $request->civil_status,
-            'address'     => $request->address,
+            'address'      => $request->address,
         ]);
 
         return back()
             ->with('success', "Resident {$request->first_name} {$request->last_name} added with ID: {$resId}")
             ->with('open_tab', 'registry');
     }
+
     public function update(Request $request, BarangayResident $resident)
     {
+        // 🚀 UPGRADED: Included birth_date and gender validation checks for the Edit profile modal features
         $request->validate([
             'first_name'   => 'required|string|max:255',
             'middle_name'  => 'nullable|string|max:255',
             'last_name'    => 'required|string|max:255',
+            'birth_date'   => 'required|date',
+            'gender'       => 'required|in:Male,Female',
             'age'          => 'required|integer',
             'civil_status' => 'required|string',
             'address'      => 'required|string|max:500',
         ]);
 
-        $resident->update($request->only([
-            'first_name',
-            'middle_name',
-            'last_name',
-            'age',
-            'civil_status',
-            'address'
-        ]));
+        // Maps HTML input keys cleanly to database column keys
+        $resident->update([
+            'first_name'   => $request->first_name,
+            'middle_name'  => $request->middle_name,
+            'last_name'    => $request->last_name,
+            'birthdate'    => $request->birth_date,
+            'gender'       => $request->gender,
+            'age'          => $request->age,
+            'civil_status' => $request->civil_status,
+            'address'      => $request->address,
+        ]);
 
-        return redirect()->back()->with('success', 'Resident updated successfully.');
+        return redirect()->back()->with('success', 'Resident updated successfully.')->with('open_tab', 'registry');
     }
-
-    public function destroy(BarangayResident $barangayResident)
+    public function index(Request $request)
     {
-        $barangayResident->delete();
-        return back()
-            ->with('success', 'Resident removed from registry.')
-            ->with('open_tab', 'registry');
+        // 1. Capture the input string matching name="search" from your form field
+        $search = $request->input('search');
+
+        // 2. Query the database, adding conditional 'LIKE' constraints if $search is populated
+        $residents = BarangayResident::query()
+            ->when($search, function ($query, $search) {
+                return $query->where(function ($q) use ($search) {
+                    $q->where('first_name', 'LIKE', "%{$search}%")
+                        ->orWhere('middle_name', 'LIKE', "%{$search}%")
+                        ->orWhere('last_name', 'LIKE', "%{$search}%")
+                        ->orWhere('resident_id', 'LIKE', "%{$search}%");
+                });
+            })
+            ->latest('id')
+            ->get();
+
+        // 3. CRITICAL: Pass BOTH $residents and $search down into your blade parameters context array
+        return view('your-view-name', compact('residents', 'search'));
     }
 }

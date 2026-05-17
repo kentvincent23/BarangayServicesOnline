@@ -17,12 +17,13 @@ class StaffController extends Controller
             'last_name'    => 'required|string|max:100',
             'email'        => 'required|email|unique:users,email',
             'password'     => 'required|string|min:6|confirmed',
-            'birthdate'    => 'required|date|before:today',         
-            'civil_status' => 'required|in:Single,Married,Widowed,Separated,Annulled', 
+            'birthdate'    => 'required|date|before:today',
+            'gender'       => 'required|in:Male,Female',
+            'civil_status' => 'required|in:Single,Married,Widowed,Separated,Annulled',
         ]);
 
         // Auto-calculate age from birthdate
-        $age = Carbon::parse($request->birthdate)->age;             
+        $age = Carbon::parse($request->birthdate)->age;
 
         User::create([
             'name'         => $request->first_name . ' ' . $request->last_name,
@@ -31,9 +32,9 @@ class StaffController extends Controller
             'email'        => $request->email,
             'password'     => Hash::make($request->password),
             'role'         => 'staff',
-            'birthdate'    => $request->birthdate,                  
-            'civil_status' => $request->civil_status,               
-            'age'          => $age,                                  
+            'birthdate'    => $request->birthdate,
+            'civil_status' => $request->civil_status,
+            'age'          => $age,
         ]);
 
         return back()

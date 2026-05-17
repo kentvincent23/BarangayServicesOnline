@@ -18,6 +18,7 @@ class User extends Authenticatable
         'age',
         'civil_status',
         'email',
+        'gender',
         'password',
         'role',
     ];

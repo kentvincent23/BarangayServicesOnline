@@ -79,6 +79,7 @@ class ApplicationController extends Controller
             'last_name'    => 'required|string|max:100',
             'age'          => 'required|integer',
             'civil_status' => 'required|string',
+            'gender'       => 'required|in:Male,Female',
             'service_type_id' => 'required|exists:service_types,id',
             'purpose'      => 'required|string|max:255',
             'notes'        => 'nullable|string',
@@ -141,6 +142,26 @@ class ApplicationController extends Controller
 
         return back()->with('success', 'Application has been approved. ID verified and image purged.');
     }
+    public function reject(Request $request, $id)
+    {
+        // 1. Validate that the staff actually typed a reason
+        $request->validate([
+            'rejection_reason' => 'required|string|max:500'
+        ]);
+
+        // 2. Find the specific request
+        $application = \App\Models\Application::findOrFail($id);
+
+        // 3. Update the status and save the reason to the database
+        $application->update([
+            'status' => 'rejected',
+            'rejection_reason' => $request->rejection_reason,
+            'id_image_path' => null
+        ]);
+
+        return back()->with('success', 'Application rejected and reason sent to resident!');
+    }
+
     public function missed(Application $application)
     {
         // You might want to ensure it can only be marked missed if it was 'ready_to_pickup'
@@ -167,20 +188,6 @@ class ApplicationController extends Controller
     {
         $application->update(['status' => 'released']);
         return redirect()->back()->with('success', 'Document marked as released.');
-    }
-    public function reject(Application $application)
-    {
-        // Perform the same cleanup for rejected applications
-        if ($application->id_image_path && Storage::disk('public')->exists($application->id_image_path)) {
-            Storage::disk('public')->delete($application->id_image_path);
-        }
-
-        $application->update([
-            'status' => 'rejected',
-            'id_image_path' => null // Clear the path in DB
-        ]);
-
-        return redirect()->back()->with('success', 'Application has been rejected and ID image purged.');
     }
 
     public function storeService(Request $request)

@@ -18,7 +18,7 @@ class ServiceController extends Controller
         $serviceType->update([
             'name'        => $request->name,
             'description' => $request->description,
-            'is_active'   => $request->has('is_active') ? 1 : 0,
+            'is_active'   => (int) $request->input('is_active'),
         ]);
 
         return redirect()->back()->with('success', 'Service updated successfully.');
