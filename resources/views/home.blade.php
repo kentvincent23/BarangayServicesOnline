@@ -30,100 +30,107 @@
 
    
     {{-- ===== STAFF DASHBOARD ===== --}}
+<div class="w-full px-4 md:px-6 pt-6 pb-2">
+    <div class="flex items-center justify-between gap-3 flex-wrap xl:flex-nowrap">
 
-    <div class="w-full px-4 md:px-6 px-4 md:px-6 pt-8">
-    
-    <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-        
-        <div class="flex items-center gap-4 flex-wrap">
-    
-    <button onclick="switchTab('applications')" id="tab-applications"
-        class="tab-nav active group bg-white pl-2 pr-6 py-2 rounded-[2rem] shadow-sm border border-slate-200 flex items-center gap-3 transition-all hover:shadow-md active:scale-95 cursor-pointer">
-        <div class="icon-box pointer-events-none bg-blue-100 p-3 rounded-2xl text-blue-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-        </div>
-        <div class="text-left pointer-events-none">
-            <p class="tab-label text-sm font-extrabold text-slate-800 leading-none">Applications</p>
-        </div>
-    </button>
+        {{-- ===== ALL TABS IN ONE ROW ===== --}}
+        <div class="flex items-center gap-2 flex-wrap">
 
-    <button onclick="switchTab('registry')" id="tab-registry"
-        class="tab-nav group bg-white pl-2 pr-6 py-2 rounded-[2rem] shadow-sm border border-slate-200 flex items-center gap-3 transition-all hover:shadow-md active:scale-95 cursor-pointer">
-        <div class="icon-box pointer-events-none bg-slate-50 p-3 rounded-2xl text-slate-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-        </div>
-        <div class="text-left pointer-events-none">
-            <p class="tab-label text-sm font-extrabold text-slate-400 leading-none">Resident Registry</p>
-        </div>
-    </button>
-
-    <button onclick="switchTab('staff')" id="tab-staff"
-        class="tab-nav group bg-white pl-2 pr-6 py-2 rounded-[2rem] shadow-sm border border-slate-200 flex items-center gap-3 transition-all hover:shadow-md active:scale-95 cursor-pointer">
-        <div class="icon-box pointer-events-none bg-slate-50 p-3 rounded-2xl text-slate-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-        </div>
-        <div class="text-left pointer-events-none ">
-            <p class="tab-label text-sm font-extrabold text-slate-400 leading-none ">Staff Accounts</p>
-        </div>
-    </button>
-
-        <button onclick="switchTab('service')" id="tab-service"
-                class="tab-nav group bg-white pl-2 pr-6 py-2 rounded-[2rem] shadow-sm border border-slate-200 flex items-center gap-3 transition-all hover:shadow-md active:scale-95 cursor-pointer">
-                <div class="icon-box pointer-events-none bg-slate-50 p-3 rounded-2xl text-slate-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
+            <button onclick="switchTab('applications')" id="tab-applications"
+                class="tab-nav active group bg-white pl-2 pr-4 py-2 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-2 transition-all hover:shadow-md active:scale-95 cursor-pointer">
+                <div class="icon-box pointer-events-none bg-blue-100 p-2 rounded-xl text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
                 </div>
-                <div class="text-left pointer-events-none ">
-                    <p class="tab-label text-sm font-extrabold text-slate-400 leading-none ">Services</p>
-                </div>
+                <p class="tab-label text-xs font-extrabold text-slate-800 leading-none pointer-events-none">Applications</p>
             </button>
 
-        {{-- Append this next to your existing Services settings button --}}
+            <button onclick="switchTab('registry')" id="tab-registry"
+                class="tab-nav group bg-white pl-2 pr-4 py-2 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-2 transition-all hover:shadow-md active:scale-95 cursor-pointer">
+                <div class="icon-box pointer-events-none bg-slate-50 p-2 rounded-xl text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <p class="tab-label text-xs font-extrabold text-slate-400 leading-none pointer-events-none">Registry</p>
+            </button>
 
-</div>
-        <div class="flex items-center gap-3">
-        <button type="button" onclick="openAnnouncementModal()" 
-    class="flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-100 px-5 py-3.5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 transform active:scale-95 text-xs font-black uppercase tracking-widest shrink-0 mr-2">
-    <span class="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></span>
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-    </svg>
-    Post an announcement
-</button>
-            <div class="group bg-white pl-2 pr-6 py-2 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3 hover:border-violet-200 transition-colors">
-                <div class="bg-violet-100 p-2.5 rounded-xl text-violet-600">
+            <button onclick="switchTab('staff')" id="tab-staff"
+                class="tab-nav group bg-white pl-2 pr-4 py-2 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-2 transition-all hover:shadow-md active:scale-95 cursor-pointer">
+                <div class="icon-box pointer-events-none bg-slate-50 p-2 rounded-xl text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
+                <p class="tab-label text-xs font-extrabold text-slate-400 leading-none pointer-events-none">Staff</p>
+            </button>
+
+            <button onclick="switchTab('officials')" id="tab-officials"
+                class="tab-nav group bg-white pl-2 pr-4 py-2 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-2 transition-all hover:shadow-md active:scale-95 cursor-pointer">
+                <div class="icon-box pointer-events-none bg-slate-50 p-2 rounded-xl text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <p class="tab-label text-xs font-extrabold text-slate-400 leading-none pointer-events-none">Officials</p>
+            </button>
+
+            <button onclick="switchTab('service')" id="tab-service"
+                class="tab-nav group bg-white pl-2 pr-4 py-2 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-2 transition-all hover:shadow-md active:scale-95 cursor-pointer">
+                <div class="icon-box pointer-events-none bg-slate-50 p-2 rounded-xl text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <p class="tab-label text-xs font-extrabold text-slate-400 leading-none pointer-events-none">Services</p>
+            </button>
+
+        </div>
+
+        {{-- ===== RIGHT SIDE: POST ANNOUNCEMENT + STATS ===== --}}
+        <div class="flex items-center gap-2 flex-shrink-0">
+
+            {{-- Post Announcement Button --}}
+            <button onclick="openAnnouncementModal()"
+                class="flex items-center gap-2 bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-2xl shadow-sm hover:border-blue-300 hover:text-blue-600 transition-all text-xs font-black uppercase tracking-widest whitespace-nowrap">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                </svg>
+                Post Announcement
+            </button>
+
+            {{-- Residents Count --}}
+            <div class="bg-white pl-2 pr-4 py-2 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-2 hover:border-violet-200 transition-colors">
+                <div class="bg-violet-100 p-2 rounded-xl text-violet-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                 </div>
                 <div>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter leading-none mb-1">Residents</p>
-                    <p class="text-base font-black text-slate-800 leading-none">{{ $residentCount ?? 0 }}</p>
+                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-tighter leading-none mb-0.5">Residents</p>
+                    <p class="text-sm font-black text-slate-800 leading-none">{{ $residentCount ?? 0 }}</p>
                 </div>
             </div>
 
-            <div class="group bg-white pl-2 pr-6 py-2 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3 hover:border-amber-200 transition-colors">
-                <div class="bg-amber-100 p-2.5 rounded-xl text-amber-600">
+            {{-- Staff Count --}}
+            <div class="bg-white pl-2 pr-4 py-2 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-2 hover:border-amber-200 transition-colors">
+                <div class="bg-amber-100 p-2 rounded-xl text-amber-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                 </div>
                 <div>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter leading-none mb-1">Staff</p>
-                    <p class="text-base font-black text-slate-800 leading-none">{{ $staffCount ?? 0 }}</p>
+                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-tighter leading-none mb-0.5">Staff</p>
+                    <p class="text-sm font-black text-slate-800 leading-none">{{ $staffCount ?? 0 }}</p>
                 </div>
             </div>
+
         </div>
-        
-    </header>
+
+    </div>
 </div>
 <div id="panel-applications" class="space-y-6 ">
    {{-- Filters Row --}}
@@ -1347,11 +1354,164 @@
     </div>
 </div>
 
+{{-- ===== OFFICIALS TAB ===== --}}
+{{-- ===== OFFICIALS TAB ===== --}}
+{{-- ===== OFFICIALS TAB ===== --}}
+<div id="panel-officials" class="hidden space-y-6">
+
+    {{-- Add Official Form --}}
+    <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
+        <h2 class="text-lg font-black text-slate-800 mb-6">Add New Official</h2>
+        <form action="{{ route('officials.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
+                    <input type="text" name="name" value="{{ old('name') }}" required
+                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Position / Title</label>
+                    <input type="text" name="position" value="{{ old('position') }}" required
+                        placeholder="e.g. Barangay Captain"
+                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Display Order</label>
+                    <input type="number" name="order" value="{{ old('order', 0) }}" min="0"
+                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                    <p class="text-[10px] text-slate-400 ml-1">Lower number appears first (0 = first)</p>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Photo (Optional)</label>
+                    <input type="file" name="photo" accept="image/*"
+                        class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-[10px] file:font-black file:uppercase file:tracking-widest file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer bg-slate-50 rounded-2xl px-3 py-3">
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end">
+                <button type="submit"
+                    class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-blue-100 active:scale-95">
+                    + Add Official
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {{-- Officials Grid --}}
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+        @forelse($officials ?? [] as $official)
+            <div class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all overflow-hidden">
+
+                {{-- Photo --}}
+                <div class="relative h-44 bg-gradient-to-br from-blue-50 to-slate-100 overflow-hidden">
+                    @if($official->photo_path)
+                        <img src="{{ asset('storage/' . $official->photo_path) }}"
+                            alt="{{ $official->name }}"
+                            class="w-full h-full object-cover">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- Action Buttons overlay on hover --}}
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-2">
+                        <button type="button"
+                            onclick="openOfficialEditModal({{ $official->id }}, '{{ addslashes($official->name) }}', '{{ addslashes($official->position) }}', {{ $official->order }})"
+                            class="p-2.5 bg-white text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </button>
+                        <form action="{{ route('officials.destroy', $official->id) }}" method="POST"
+                            onsubmit="return confirm('Remove this official?')">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="p-2.5 bg-white text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                {{-- Info --}}
+                <div class="p-4 text-center">
+                    <p class="font-black text-slate-900 text-sm leading-tight">{{ $official->name }}</p>
+                    <p class="text-[11px] text-blue-600 font-black uppercase tracking-widest mt-1">{{ $official->position }}</p>
+                    <p class="text-[10px] text-slate-300 mt-0.5">Order: {{ $official->order }}</p>
+                </div>
+            </div>
+        @empty
+            <div class="col-span-4 py-16 text-center text-slate-400 font-semibold">
+                No officials added yet. Use the form above to add one.
+            </div>
+        @endforelse
+    </div>
+</div>
+
+{{-- ===== EDIT OFFICIAL MODAL ===== --}}
+<div id="officialEditModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 w-full max-w-lg mx-4 p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-lg font-black text-slate-800">Edit Official</h2>
+            <button onclick="closeOfficialEditModal()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <form id="officialEditForm" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="_method" value="POST">
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Full Name</label>
+                    <input type="text" id="edit_official_name" name="name" required
+                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Position / Title</label>
+                    <input type="text" id="edit_official_position" name="position" required
+                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Display Order</label>
+                    <input type="number" id="edit_official_order" name="order" min="0"
+                        class="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Replace Photo (Optional)</label>
+                    <input type="file" name="photo" accept="image/*"
+                        class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-[10px] file:font-black file:uppercase file:tracking-widest file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer bg-slate-50 rounded-2xl px-3 py-3">
+                    <p class="text-[10px] text-slate-400 ml-1">Leave empty to keep the current photo.</p>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end gap-3">
+                <button type="button" onclick="closeOfficialEditModal()"
+                    class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-6 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-blue-100 active:scale-95">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
    <script>
     // ===== TAB SWITCHING =====
 // ===== DASHBOARD TAB SWITCHER =====
 function switchTab(tabId) {
-    const tabs = ['applications', 'registry', 'staff', 'service'];
+    const tabs = ['applications', 'registry', 'staff', 'service', 'officials'];
 
     tabs.forEach(t => {
         const panel = document.getElementById('panel-' + t);
@@ -1909,6 +2069,28 @@ function clearSearchTable() {
         executeSearch();  // Re-run search logic to unhide and restore all original rows
     }
 }
+
+// ===== EDIT OFFICIAL MODAL =====
+function openOfficialEditModal(id, name, position, order) {
+    document.getElementById('edit_official_name').value     = name;
+    document.getElementById('edit_official_position').value = position;
+    document.getElementById('edit_official_order').value    = order;
+    document.getElementById('officialEditForm').action      = '/officials/' + id;
+
+    const modal = document.getElementById('officialEditModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+function closeOfficialEditModal() {
+    const modal = document.getElementById('officialEditModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+document.getElementById('officialEditModal')?.addEventListener('click', function(e) {
+    if (e.target === this) closeOfficialEditModal();
+});
 </script>
 </body>
 @endsection

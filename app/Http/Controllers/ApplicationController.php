@@ -33,9 +33,8 @@ class ApplicationController extends Controller
 
             $staffAccounts = User::where('role', 'staff')->latest()->get();
             $staffCount    = $staffAccounts->count();
-
-            // Fetch active service types from DB
             $serviceTypes = ServiceType::latest()->get();
+            $officials = \App\Models\Official::orderBy('order')->get();
 
             return view('home', compact(
                 'applications',
@@ -46,7 +45,8 @@ class ApplicationController extends Controller
                 'staffAccounts',
                 'staffCount',
                 'search',
-                'serviceTypes' // Pass to view
+                'serviceTypes',
+                'officials'
             ));
         }
 

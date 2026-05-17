@@ -8,7 +8,7 @@ return new class extends Migration {
         Schema::create('barangay_residents', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
-            $table->string('middle_initial')->nullable();
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->unsignedTinyInteger('age');
             $table->date('birthdate');

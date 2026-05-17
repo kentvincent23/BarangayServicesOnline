@@ -100,8 +100,8 @@ class ResidentController extends Controller
             })
             ->latest('id')
             ->get();
-
+ $serviceTypes = \App\Models\ServiceType::where('is_active', true)->get();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
         // 3. CRITICAL: Pass BOTH $residents and $search down into your blade parameters context array
-        return view('your-view-name', compact('residents', 'search'));
+        return view('home', compact('residents', 'search', 'serviceTypes'));
     }
 }

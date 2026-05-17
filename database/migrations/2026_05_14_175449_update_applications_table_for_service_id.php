@@ -20,7 +20,7 @@ return new class extends Migration
                 $table->foreignId('service_type_id')
                     ->after('resident_id')
                     ->nullable() // Keep it nullable so existing rows don't break
-                    ->constrained('service_type')
+                    ->constrained('service_types')
                     ->onDelete('cascade');
             }
         });

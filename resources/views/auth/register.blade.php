@@ -87,7 +87,7 @@
                 @csrf
                 
                 {{-- Name Group --}}
-                <div class="space-y-4">
+                <div class="space-y-4"> 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="group space-y-1.5">
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 group-focus-within:text-blue-600 transition-colors">First Name</label>
@@ -110,9 +110,19 @@
                 {{-- Personal Data Group --}}
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="group space-y-1.5">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 group-focus-within:text-blue-600 transition-colors">Age</label>
-                        <input type="number" name="age" value="{{ old('age') }}" required min="1"
-                            class="w-full px-6 py-4 bg-slate-50/50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white font-bold text-slate-700 transition-all">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Birth Date</label>
+                {{-- Added id="birth_date" and onchange="calculateAge()" --}}
+                <input type="date" name="birth_date" id="birth_date" onchange="calculateAge()" value="{{ old('birth_date') }}" required
+                    class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-sm transition-all">
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                  Age <span class="text-blue-400 normal-case tracking-normal font-medium">(auto)</span>
+                </label>
+                {{-- Added id="age" and made it readonly so residents can't type random numbers --}}
+                <input type="number" name="age" id="age" value="{{ old('age') }}" readonly required 
+                    class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-sm transition-all cursor-not-allowed">
                     </div>
                     <div class="group space-y-1.5">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 group-focus-within:text-blue-600 transition-colors">Civil Status</label>
@@ -212,6 +222,30 @@
 
             icon.innerHTML = isHidden ? eyeOpen : eyeSlash;
         }
+        function calculateAge() {
+    const birthdateInput = document.getElementById('birth_date').value;
+    const ageInput = document.getElementById('age');
+
+    // Exit early if no date is picked
+    if (!birthdateInput) return;
+
+    const birthDate = new Date(birthdateInput);
+    const today = new Date();
+
+    // Calculate raw years difference
+    let age = today.getFullYear() - birthDate.getFullYear();
+    
+    // Check if the birthday hasn't happened yet this calendar year
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    const dayDifference = today.getDate() - birthDate.getDate();
+
+    if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+        age--;
+    }
+
+    // Pass the calculated age directly into the field
+    ageInput.value = age >= 0 ? age : 0;
+}
     </script>
 </body>
 </html>

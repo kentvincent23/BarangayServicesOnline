@@ -115,6 +115,55 @@
         </div>
     </div>
 
+     {{-- ===== BARANGAY OFFICIALS ===== --}}
+        <section>
+            <div class="text-center mb-10">
+               <p class="text-[11px] font-black text-blue-600 uppercase tracking-widest text-center mb-8 mt-4">LEADERSHIP</p>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Barangay Officials</h2>
+                <p class="text-slate-500 mt-2 font-medium">The dedicated officials serving Barangay Mankilam</p>
+            </div>
+
+            @if($officials->count())
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 md:gap-6">
+                    @foreach($officials as $official)
+                        <div class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-blue-100 transition-all duration-300 overflow-hidden">
+                            {{-- Photo --}}
+                            <div class="relative h-44 md:h-52 bg-gradient-to-br from-blue-50 to-slate-100 overflow-hidden">
+                                @if($official->photo_path)
+                                    <img src="{{ asset('storage/' . $official->photo_path) }}"
+                                        alt="{{ $official->name }}"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                @else
+                                    {{-- Default avatar if no photo --}}
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            {{-- Info --}}
+                            <div class="p-4 text-center">
+                                <p class="font-black text-slate-900 text-sm leading-tight">{{ $official->name }}</p>
+                                <p class="text-[11px] text-blue-600 font-black uppercase tracking-widest mt-1">{{ $official->position }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="text-center py-16 bg-white rounded-3xl border border-slate-100">
+                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <p class="text-slate-400 font-semibold">No officials added yet.</p> 
+                </div>
+            @endif
+        </section>
+
     {{-- Vision Mission Goal --}}
     <div class="max-w-4xl mx-auto px-4 py-14" id="foundation">
         <p class="text-[11px] font-black text-blue-600 uppercase tracking-widest text-center mb-8">Our Foundation</p>

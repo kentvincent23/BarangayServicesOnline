@@ -6,6 +6,7 @@ use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\OfficialController;
 
 if (\Illuminate\Support\Facades\Auth::check()) {
     return redirect()->route('home');
@@ -21,9 +22,9 @@ Route::get('/', function () {
 
     // FETCH THE SERVICES HERE
     $serviceTypes = \App\Models\ServiceType::where('is_active', true)->get();
-
+     $officials = \App\Models\Official::orderBy('order')->get();
     // PASS THEM TO THE VIEW
-    return view('landingpage', compact('serviceTypes'));
+    return view('landingpage', compact('serviceTypes', 'officials'));
 })->name('landing');
 
 // This is your actual dashboard route
@@ -50,6 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/applications/{application}/reject', [ApplicationController::class, 'reject'])->name('applications.reject');
 
     // Resident registry
+    Route::get('/residents', [ResidentController::class, 'index'])->name('residents.index');
     Route::post('/residents', [ResidentController::class, 'store'])->name('residents.store');
     Route::put('/residents/{resident}', [ResidentController::class, 'update'])->name('residents.update');
     Route::delete('/residents/{barangayResident}', [ResidentController::class, 'destroy'])->name('residents.destroy');
@@ -63,5 +65,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/services/{serviceType}', [ServiceController::class, 'update'])->name('services.update');
 
     //announcement
-    Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
+    Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store'); 
+
+    //officials
+     Route::get('/officials', [OfficialController::class, 'index'])->name('officials.index');
+    Route::post('/officials', [OfficialController::class, 'store'])->name('officials.store');
+    Route::post('/officials/{official}', [OfficialController::class, 'update'])->name('officials.update');
+    Route::delete('/officials/{official}', [OfficialController::class, 'destroy'])->name('officials.destroy');
 });
