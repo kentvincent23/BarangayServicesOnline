@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barangay Mankilam Online Services Portal</title>
+    <link rel="icon" type="image/png" href="{{ asset('/images/LOGO.png') }}?v=1">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-[#f8fafc] min-h-screen pb-12">
@@ -14,7 +16,7 @@
 
         {{-- Left: Logo --}}
         <a href="{{ url('/') }}" class="flex items-center gap-2.5 no-underline shrink-0">
-            <img src="{{ asset('images/Mankilam Logo.jpg') }}" alt="Mankilam Logo"
+            <img src="{{ asset('images/LOGO.png') }}" alt="Mankilam Logo"
                 class="h-8 w-auto object-contain rounded-md">
             <div class="flex flex-col leading-tight">
                 <span class="text-[9px] font-black uppercase tracking-widest text-blue-600">Barangay Mankilam</span>
@@ -25,14 +27,14 @@
         {{-- Desktop Right --}}
         <div class="hidden md:flex items-center gap-2">
             @auth
-                {{-- 🔔 DESKTOP NOTIFICATION BELL --}}
+                {{--  DESKTOP NOTIFICATION BELL --}}
                 @if(Auth::user()->role !== 'staff')
                     <div class="relative mr-2">
                        <button type="button" onclick="toggleMobileSidebar()" class="p-2 text-slate-400 hover:text-blue-600 transition-colors relative">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
-                            {{-- 🔴 SMART DESKTOP RED DOT --}}
+                            {{--  SMART DESKTOP RED DOT --}}
                             @php
                                 $latestNotice = \App\Models\Announcement::latest()->first();
                                 $latestReject = Auth::user()->applications->where('status', 'rejected')->sortByDesc('updated_at')->first();
@@ -67,6 +69,10 @@
                         <span class="relative z-10">About Us</span>
                         <div class="absolute inset-0 bg-white rounded-xl scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 shadow-sm transition-all duration-200"></div>
                     </a>
+                    <a href="#officials" class="group relative px-4 py-2 text-[11px] font-black uppercase tracking-wider text-slate-500 hover:text-blue-600 transition-all">
+                        <span class="relative z-10">Officials</span>
+                        <div class="absolute inset-0 bg-white rounded-xl scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 shadow-sm transition-all duration-200"></div>
+                    </a>
                     <a href="#foundation" class="group relative px-4 py-2 text-[11px] font-black uppercase tracking-wider text-slate-500 hover:text-blue-600 transition-all">
                         <span class="relative z-10">Foundation</span>
                         <div class="absolute inset-0 bg-white rounded-xl scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 shadow-sm transition-all duration-200"></div>
@@ -85,7 +91,7 @@
 
         {{-- Mobile Right Layout Section --}}
         <div class="flex md:hidden items-center gap-1">
-            {{-- 🔔 MOBILE NOTIFICATION BELL: Appears right on the left side of hamburger button --}}
+            {{--  MOBILE NOTIFICATION BELL: Appears right on the left side of hamburger button --}}
             @auth
                 @if(Auth::user()->role !== 'staff')
                     <div class="relative">
@@ -93,7 +99,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
-                            {{-- 🔴 SMART MOBILE RED DOT --}}
+                            {{--  SMART MOBILE RED DOT --}}
                             @if(($latestNotice || $latestReject) && $latestTime > 0)
                                 <span id="mobileDot" data-latest="{{ $latestTime }}" class="hidden absolute top-2 right-2 h-2 w-2 bg-rose-500 rounded-full ring-2 ring-white"></span>
                             @endif
@@ -137,16 +143,6 @@
                     </div>
                 </div>
 
-                {{-- Rejection Messages Tracker trigger link for quick mobile checking --}}
-                @if(Auth::user()->role !== 'staff')
-                    <button type="button" onclick="toggleMobileSidebar(); toggleMenu();"
-                        class="flex w-full items-center gap-2 px-4 py-3 text-sm font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition-all mx-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                        </svg>
-                        View Rejection Reasons
-                    </button>
-                @endif
 
                 <a href="#services"
                     class="flex items-center gap-2 px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all mx-1">
@@ -170,8 +166,14 @@
             @else
                 {{-- Guest Links --}}
                 <a href="#about" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all group">
-                    <div class="w-8 h-8 bg-slate-100 group-hover:bg-blue-100 rounded-xl flex items-center justify-center shrink-0 transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500 group-hover:text-blue-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg></div>
+                    <div class="w-8 h-8 bg-slate-100 group-hover:bg-blue-100 rounded-xl flex items-center justify-center shrink-0 transition-all"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" /></svg></div>
                     <span>About Us</span>
+                </a>
+                <a href="#officials" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all group">
+                    <div class="w-8 h-8 bg-slate-100 group-hover:bg-blue-100 rounded-xl flex items-center justify-center shrink-0 transition-all"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" /></svg></div>
+                    <span>Officials</span>
                 </a>
                 <a href="#foundation" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all group">
                     <div class="w-8 h-8 bg-slate-100 group-hover:bg-blue-100 rounded-xl flex items-center justify-center shrink-0 transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500 group-hover:text-blue-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg></div>
@@ -193,7 +195,7 @@
 {{-- MAIN CONTENT --}}
 @yield('content')
 
-{{-- 📁 PREMIUM GLASSMORPHIC MOBILE NOTIFICATION CENTER DRAWER --}}
+{{-- PREMIUM GLASSMORPHIC MOBILE NOTIFICATION CENTER DRAWER --}}
 @auth
     @if(Auth::user()->role !== 'staff')
         <div id="mobileSidebar" class="fixed inset-0 z-[100] hidden">
@@ -243,7 +245,7 @@
         @if($timelineFeed->count() > 0)
             @foreach($timelineFeed as $item)
                 
-                {{-- 📢 TYPE A: IF THE TIMELINE ITEM IS AN ANNOUNCEMENT --}}
+                {{--  TYPE A: IF THE TIMELINE ITEM IS AN ANNOUNCEMENT --}}
                 @if($item instanceof \App\Models\Announcement)
                     @php
                         $typeStyles = [
@@ -256,7 +258,7 @@
                     <div class="bg-white border {{ $typeStyles['border'] }} rounded-[2rem] p-4 shadow-sm relative overflow-hidden transition-all hover:shadow-md">
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 {{ $typeStyles['badge'] }} rounded-lg">
-                                📢 {{ $typeStyles['label'] }}
+                                 {{ $typeStyles['label'] }}
                             </span>
                             <span class="text-[9px] font-medium text-slate-400">
                                 {{ $item->created_at->diffForHumans() }}
@@ -268,7 +270,7 @@
                         </div>
                     </div>
 
-                {{-- ❌ TYPE B: IF THE TIMELINE ITEM IS A REJECTED APPLICATION --}}
+                {{--  TYPE B: IF THE TIMELINE ITEM IS A REJECTED APPLICATION --}}
                 @else
                     <div class="group relative bg-slate-50/60 hover:bg-rose-50/20 rounded-[2rem] p-5 border border-slate-100 hover:border-rose-100 transition-all duration-300 shadow-sm hover:shadow-md">
                         <div class="flex items-start justify-between gap-2 mb-2">
@@ -342,8 +344,10 @@
     @endif
 @endauth
 <button id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})"
-    style="opacity:0; transform: translateY(20px); transition: all 0.3s ease; pointer-events: none;"
-    class="fixed bottom-16 left-1/2 -translate-x-1/2 z-50 w-11 h-11 bg-blue-700 hover:bg-blue-800 text-white rounded-2xl shadow-xl shadow-blue-200 flex items-center justify-center">
+    {{--Combined translateX(-50%) with the animated translateY(20px) --}}
+    style="opacity: 0; transform: translateX(-50%) translateY(20px); transition: all 0.3s ease; pointer-events: none;"
+    {{-- Removed -translate-x-1/2 from class list to prevent styling conflicts --}}
+    class="fixed bottom-16 left-1/2 mountaineer z-50 w-11 h-11 bg-blue-700 hover:bg-blue-800 text-white rounded-2xl shadow-xl shadow-blue-200 flex items-center justify-center">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" />
     </svg>
@@ -433,19 +437,31 @@
             }
         });
 
-const scrollBtn = document.getElementById('scroll-top-btn');
+window.addEventListener('scroll', function() {
+    const btn = document.getElementById('scroll-top-btn');
+    if (!btn) return;
 
-        window.addEventListener('scroll', function () {
-            if (window.scrollY > 100) {
-                scrollBtn.style.opacity = '1';
-                scrollBtn.style.transform = 'translateY(0) translateX(-50%)'; 
-                scrollBtn.style.pointerEvents = 'auto';
-            } else {
-                scrollBtn.style.opacity = '0';
-                scrollBtn.style.transform = 'translateY(20px) translateX(-50%)';
-                scrollBtn.style.pointerEvents = 'none';
-            }
-        });
+    if (window.scrollY > 250) {
+        // Keep it perfectly centered at -50% while lifting it up to its natural resting state
+        btn.style.opacity = "1";
+        btn.style.transform = "translateX(-50%) translateY(0px)";
+        btn.style.pointerEvents = "auto";
+    } else {
+        // Push it down and hide it
+        btn.style.opacity = "0";
+        btn.style.transform = "translateX(-50%) translateY(20px)";
+        btn.style.pointerEvents = "none";
+    }
+});
+//title scrolling text 
+(function() {
+  var title = "Barangay Mankilam Online Services Portal ";
+  var pos = 0;
+  setInterval(function() {
+    document.title = title.substring(pos) + title.substring(0, pos);
+    pos = (pos + 1) % title.length;
+  }, 250);
+})();
     </script>
 
 </body>

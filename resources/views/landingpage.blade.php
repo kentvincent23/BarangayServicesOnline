@@ -25,8 +25,8 @@
         </div>
 
         {{-- Logo --}}
-        <img src="{{ asset('images/Mankilam Logo.jpg') }}" alt="Mankilam Logo"
-            class="h-24 sm:h-28 w-auto object-contain rounded-2xl shadow-md border border-white mb-6">
+            <img src="{{ asset('images/LOGO.png') }}" alt="Mankilam Logo"
+                class="h-36 sm:h-40 w-auto object-contain rounded-md">
 
         {{-- Title --}}
         <h1 class="text-4xl sm:text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-4">
@@ -116,7 +116,7 @@
     </div>
 
      {{-- ===== BARANGAY OFFICIALS ===== --}}
-        <section>
+        <div id="officials">
             <div class="text-center mb-10">
                <p class="text-[11px] font-black text-blue-600 uppercase tracking-widest text-center mb-8 mt-4">LEADERSHIP</p>
                 <h2 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Barangay Officials</h2>
@@ -162,7 +162,7 @@
                     <p class="text-slate-400 font-semibold">No officials added yet.</p> 
                 </div>
             @endif
-        </section>
+        </div>
 
     {{-- Vision Mission Goal --}}
     <div class="max-w-4xl mx-auto px-4 py-14" id="foundation">

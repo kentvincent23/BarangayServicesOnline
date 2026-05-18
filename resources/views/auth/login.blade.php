@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barangay Connect | Sign In</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+ <title>Barangay Mankilam Online Services Portal</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/LOGO.png') }}?v=1">
+      <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         
@@ -152,6 +153,15 @@
 
             icon.innerHTML = isHidden ? eyeOpen : eyeSlash;
         }
+        //title scrolling text 
+            (function() {
+            var title = "Barangay Mankilam Online Services Portal ";
+            var pos = 0;
+            setInterval(function() {
+                document.title = title.substring(pos) + title.substring(0, pos);
+                pos = (pos + 1) % title.length;
+            }, 250);
+            })();
     </script>
 </body>
 </html>

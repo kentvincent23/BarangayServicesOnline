@@ -227,27 +227,57 @@
                     </div>
                 </div>
 
-                {{-- Filter Pills - Scrollable on mobile --}}
-                <div class="flex items-center gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide">
-                    @foreach([
-                        ['key'=>'all',            'label'=>'All',        'dot'=>'bg-slate-400',   'active'=>'bg-slate-100 border-slate-400 text-slate-700'],
-                        ['key'=>'pending',        'label'=>'Pending',    'dot'=>'bg-yellow-500',  'active'=>'bg-yellow-50 border-yellow-500 text-yellow-800'],
-                        ['key'=>'approved',       'label'=>'Approved',   'dot'=>'bg-blue-500',    'active'=>'bg-blue-50 border-blue-500 text-blue-800'],
-                        ['key'=>'processing',     'label'=>'Processing', 'dot'=>'bg-violet-500',  'active'=>'bg-violet-50 border-violet-500 text-violet-800'],
-                        ['key'=>'ready_to_pickup','label'=>'Ready',      'dot'=>'bg-emerald-500', 'active'=>'bg-emerald-50 border-emerald-500 text-emerald-800'],
-                        ['key'=>'released',       'label'=>'Released',   'dot'=>'bg-violet-500',  'active'=>'bg-violet-50 border-violet-500 text-violet-800'],
-                        ['key'=>'rejected',       'label'=>'Rejected',   'dot'=>'bg-red-500',     'active'=>'bg-red-50 border-red-500 text-red-800'],
-                        ['key'=>'missed',         'label'=>'Unclaimed',  'dot'=>'bg-slate-400',   'active'=>'bg-slate-100 border-slate-400 text-slate-700'],
-                    ] as $f)
-                    <button @click="filter = '{{ $f['key'] }}'"
-                        :class="filter === '{{ $f['key'] }}' ? '{{ $f['active'] }}' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'"
-                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[11px] font-semibold whitespace-nowrap transition-all shrink-0">
-                        <span class="w-1.5 h-1.5 rounded-full {{ $f['dot'] }} shrink-0"></span>
-                        {{ $f['label'] }}
-                    </button>
-                    @endforeach
-                </div>
+                <div class="w-full mb-4">
+    {{--  FILTER CONTROL ROW --}}
+    <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Applications Management</h3>
+        
+        {{-- Premium Toggle Button with native onclick trigger --}}
+        <button type="button" id="filter-toggle-btn" onclick="toggleFilterTray()"
+            class="bg-white border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 px-3.5 py-2 border rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" id="filter-icon-svg"
+                class="h-4 w-4 text-slate-400 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            <span>Filter Status</span>
+            <span id="filter-count-badge" class="ml-1 px-1.5 py-0.5 text-[10px] bg-slate-100 rounded-md font-bold text-slate-500 transition-colors duration-300">
+                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+</svg>
+</span>
+            </span>
+        </button>
+    </div>
 
+    {{-- COLLAPSIBLE SLIDE-DOWN TRAY (Managed by CSS transition rules) --}}
+    <div id="filter-tray" 
+        style="max-height: 0px; opacity: 0;"
+        class="bg-slate-50/50 border border-slate-100 rounded-2xl p-0 overflow-hidden transition-all duration-300 ease-in-out">
+        
+        {{-- Inner padding wrapper to prevent layout jerking during animation --}}
+        <div class="p-3">
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 sm:flex-wrap scrollbar-hide">
+                @foreach([
+                    ['key'=>'all',             'label'=>'All',        'dot'=>'bg-slate-400',   'active'=>'bg-slate-100 border-slate-400 text-slate-700'],
+                    ['key'=>'pending',         'label'=>'Pending',    'dot'=>'bg-yellow-500',  'active'=>'bg-yellow-50 border-yellow-500 text-yellow-800'],
+                    ['key'=>'approved',        'label'=>'Approved',   'dot'=>'bg-blue-500',    'active'=>'bg-blue-50 border-blue-500 text-blue-800'],
+                    ['key'=>'processing',      'label'=>'Processing', 'dot'=>'bg-violet-500',  'active'=>'bg-violet-50 border-violet-500 text-violet-800'],
+                    ['key'=>'ready_to_pickup','label'=>'Ready',      'dot'=>'bg-emerald-500', 'active'=>'bg-emerald-50 border-emerald-500 text-emerald-800'],
+                    ['key'=>'released',        'label'=>'Released',   'dot'=>'bg-violet-500',  'active'=>'bg-violet-50 border-violet-500 text-violet-800'],
+                    ['key'=>'rejected',        'label'=>'Rejected',   'dot'=>'bg-red-500',     'active'=>'bg-red-50 border-red-500 text-red-800'],
+                    ['key'=>'missed',          'label'=>'Unclaimed',  'dot'=>'bg-slate-400',   'active'=>'bg-slate-100 border-slate-400 text-slate-700'],
+                ] as $f)
+                <button @click="filter = '{{ $f['key'] }}'"
+                    :class="filter === '{{ $f['key'] }}' ? '{{ $f['active'] }}' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'"
+                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[11px] font-bold whitespace-nowrap transition-all shrink-0 shadow-sm cursor-pointer">
+                    <span class="w-1.5 h-1.5 rounded-full {{ $f['dot'] }} shrink-0"></span>
+                    {{ $f['label'] }}
+                </button>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
                 {{-- Application Cards --}}
                 <div class="space-y-2.5">
                     @foreach($myApps as $app)
@@ -368,6 +398,45 @@
         label.textContent = 'Click Here to Request a Service';
         btn.classList.remove('bg-red-500', 'hover:bg-red-600', 'shadow-red-200');
         btn.classList.add('bg-blue-700', 'hover:bg-blue-800', 'shadow-blue-200');
+    }
+}
+function toggleFilterTray() {
+    const tray = document.getElementById('filter-tray');
+    const icon = document.getElementById('filter-icon-svg');
+    const button = document.getElementById('filter-toggle-btn');
+    const badge = document.getElementById('filter-count-badge');
+    
+    // Check if the tray container is currently collapsed
+    const isCollapsed = tray.style.maxHeight === '0px' || tray.style.maxHeight === '';
+
+    if (isCollapsed) {
+        //  Open Tray: Calculate natural inner height dynamically for a smooth transition
+        tray.style.maxHeight = tray.scrollHeight + 'px';
+        tray.style.opacity = '1';
+        
+        // Transform button colors to active blue styles
+        button.classList.replace('bg-white', 'bg-blue-50/50');
+        button.classList.replace('border-slate-200', 'border-blue-200');
+        button.classList.replace('text-slate-600', 'text-blue-600');
+        
+        badge.classList.replace('bg-slate-100', 'bg-blue-500');
+        badge.classList.replace('text-slate-500', 'text-white');
+        
+        // Rotate the filter SVG icon 180 degrees
+        icon.classList.add('rotate-180', 'text-blue-500');
+    } else {
+        // Close Tray: Reset properties back to hidden defaults
+        tray.style.maxHeight = '0px';
+        tray.style.opacity = '0';
+        
+        button.classList.replace('bg-blue-50/50', 'bg-white');
+        button.classList.replace('border-blue-200', 'border-slate-200');
+        button.classList.replace('text-blue-600', 'text-slate-600');
+        
+        badge.classList.replace('bg-blue-500', 'bg-slate-100');
+        badge.classList.replace('text-white', 'text-slate-500');
+        
+        icon.classList.remove('rotate-180', 'text-blue-500');
     }
 }
 </script>

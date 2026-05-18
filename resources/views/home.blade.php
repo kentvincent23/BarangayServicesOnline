@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barangay Connect | Services & Management</title>
+    <title>Barangay Mankilam Online Services Portal</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/LOGO.png') }}?v=1">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
@@ -53,7 +55,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                 </div>
-                <p class="tab-label text-xs font-extrabold text-slate-400 leading-none pointer-events-none">Registry</p>
+                <p class="tab-label text-xs font-extrabold text-slate-400 leading-none pointer-events-none">Residents</p>
             </button>
 
             <button onclick="switchTab('staff')" id="tab-staff"
@@ -505,7 +507,7 @@
         <div class="space-y-1.5">
                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Birth Date</label>
                 {{-- Added id="birth_date" and onchange="calculateAge()" --}}
-                <input type="date" name="birth_date" id="birth_date" onchange="calculateAge()" value="{{ old('birth_date') }}" required
+                <input type="date" name="birthdate" id="birthdate" onchange="calculateAge()" value="{{ old('birthdate') }}" required
                     class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-sm transition-all">
             </div>
 
@@ -702,7 +704,7 @@
                 </div>
                 <div class="sm:col-span-2 space-y-1.5">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Last Name</label>
-                    <input type="text" id="edit_last_name" name="last_name" required
+                    <input type="text" id="edit_last_name" name="last_name" placeholder="Middle Name" required
                         class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-sm transition-all">
                
                     </div>
@@ -1752,7 +1754,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (bd && bd.value) calcStaffAge(bd.value);
 });
 function calculateAge() {
-    const birthdateInput = document.getElementById('birth_date').value;
+    const birthdateInput = document.getElementById('birthdate').value;
     const ageInput = document.getElementById('age');
 
     // Exit early if no date is picked

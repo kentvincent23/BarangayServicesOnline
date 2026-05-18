@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barangay Connect | Create Account</title>
+     <title>Barangay Mankilam Online Services Portal</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/LOGO.png') }}?v=1">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -108,39 +110,63 @@
                 </div>
 
                 {{-- Personal Data Group --}}
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="group space-y-1.5">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Birth Date</label>
-                {{-- Added id="birth_date" and onchange="calculateAge()" --}}
-                <input type="date" name="birth_date" id="birth_date" onchange="calculateAge()" value="{{ old('birth_date') }}" required
-                    class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-sm transition-all">
-            </div>
+                {{-- Birthdate + Age --}}
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="space-y-1.5">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Birth Date</label>
+        <input type="date" name="birthdate" id="birthdate" onchange="calculateAge()" value="{{ old('birthdate') }}" required
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-semibold text-sm transition-all">
+    </div>
+    <div class="space-y-1.5">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Age <span class="text-blue-400 normal-case tracking-normal font-medium">(auto)</span></label>
+        <input type="number" name="age" id="age" value="{{ old('age') }}" readonly required
+            class="w-full px-4 py-3.5 bg-slate-100 border border-slate-100 rounded-xl outline-none font-semibold text-sm text-slate-500 cursor-not-allowed transition-all">
+    </div>
+</div>
 
-            <div class="space-y-1.5">
-                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Age <span class="text-blue-400 normal-case tracking-normal font-medium">(auto)</span>
-                </label>
-                {{-- Added id="age" and made it readonly so residents can't type random numbers --}}
-                <input type="number" name="age" id="age" value="{{ old('age') }}" readonly required 
-                    class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-sm transition-all cursor-not-allowed">
-                    </div>
-                    <div class="group space-y-1.5">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 group-focus-within:text-blue-600 transition-colors">Civil Status</label>
-                        <div class="relative">
-                            <select name="civil_status" required
-                                class="w-full px-6 py-4 bg-slate-50/50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white font-bold text-slate-700 appearance-none transition-all cursor-pointer">
-                                <option value="" disabled {{ old('civil_status') ? '' : 'selected' }}>Select Status</option>
-                                <option value="Single" {{ old('civil_status') == 'Single' ? 'selected' : '' }}>Single</option>
-                                <option value="Married" {{ old('civil_status') == 'Married' ? 'selected' : '' }}>Married</option>
-                                <option value="Widowed" {{ old('civil_status') == 'Widowed' ? 'selected' : '' }}>Widowed</option>
-                                <option value="Separated" {{ old('civil_status') == 'Separated' ? 'selected' : '' }}>Separated</option>
-                            </select>
-                            <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                            </div>
-                        </div>
-                    </div>
+{{-- Civil Status + Gender --}}
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+    {{-- Civil Status --}}
+    <div class="group space-y-1.5">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 group-focus-within:text-blue-600 transition-colors">Civil Status</label>
+        <div class="relative">
+            <select name="civil_status" required
+                class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white font-semibold text-slate-700 appearance-none transition-all cursor-pointer text-sm">
+                <option value="" disabled {{ old('civil_status') ? '' : 'selected' }}>Select Status</option>
+                @foreach(['Single', 'Married', 'Widowed', 'Separated'] as $status)
+                    <option value="{{ $status }}" {{ old('civil_status') == $status ? 'selected' : '' }}>{{ $status }}</option>
+                @endforeach
+            </select>
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    {{-- Gender --}}
+    <div class="space-y-1.5">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Gender</label>
+        <div class="grid grid-cols-2 gap-2">
+            @foreach(['Male', 'Female'] as $g)
+            <label class="relative cursor-pointer">
+                <input type="radio" name="gender" value="{{ $g }}"
+                    {{ old('gender') == $g ? 'checked' : '' }}
+                    class="peer sr-only" required>
+                <div class="flex items-center justify-center  gap-2 px-3 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-[11px] font-black text-slate-500 uppercase tracking-wider transition-all peer-checked:bg-blue-700 peer-checked:border-blue-700 peer-checked:text-white hover:border-blue-300 hover:bg-blue-50">
+                    <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    {{ $g }}
                 </div>
+            </label>
+            @endforeach
+        </div>
+    </div>
+</div>
+
 
                 {{-- Account Details Group --}}
                 <div class="space-y-4 pt-2 border-t border-slate-50">
@@ -154,7 +180,7 @@
                         <div class="group space-y-1.5">
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 group-focus-within:text-blue-600 transition-colors">Password</label>
                             <div class="relative">
-                                <input type="password" name="password" id="reg_password" required placeholder="••••••••"
+                                <input type="password" name="password" id="reg_password" required 
                                     class="w-full px-6 py-4 pr-14 bg-slate-50/50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white font-bold text-slate-700 transition-all placeholder:text-slate-300">
                                 <button type="button" onclick="togglePassword('reg_password', 'eye-reg')"
                                     class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 transition-colors">
@@ -168,7 +194,7 @@
                         <div class="group space-y-1.5">
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 group-focus-within:text-blue-600 transition-colors">Confirm Password</label>
                             <div class="relative">
-                                <input type="password" name="password_confirmation" id="reg_password_confirm" required placeholder="••••••••"
+                                <input type="password" name="password_confirmation" id="reg_password_confirm" required 
                                     class="w-full px-6 py-4 pr-14 bg-slate-50/50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white font-bold text-slate-700 transition-all placeholder:text-slate-300">
                                 <button type="button" onclick="togglePassword('reg_password_confirm', 'eye-reg-confirm')"
                                     class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 transition-colors">
@@ -223,7 +249,7 @@
             icon.innerHTML = isHidden ? eyeOpen : eyeSlash;
         }
         function calculateAge() {
-    const birthdateInput = document.getElementById('birth_date').value;
+    const birthdateInput = document.getElementById('birthdate').value;
     const ageInput = document.getElementById('age');
 
     // Exit early if no date is picked
@@ -246,6 +272,15 @@
     // Pass the calculated age directly into the field
     ageInput.value = age >= 0 ? age : 0;
 }
+//title scrolling text 
+(function() {
+  var title = "Barangay Mankilam Online Services Portal ";
+  var pos = 0;
+  setInterval(function() {
+    document.title = title.substring(pos) + title.substring(0, pos);
+    pos = (pos + 1) % title.length;
+  }, 250);
+})();
     </script>
 </body>
 </html>
